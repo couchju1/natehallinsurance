@@ -32,7 +32,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap">
 
   <link rel="preload" as="image" href="assets/nate.webp?v=20261008" type="image/webp">
-  <link rel="stylesheet" href="css/styles.css?v=20261008b">
+  <link rel="stylesheet" href="css/styles.css?v=20261008c">
 
   <!-- Structured data for search engines -->
   <script type="application/ld+json">
@@ -598,6 +598,20 @@
           <h3>Thank you!</h3>
           <p>Your request is on its way. I'll be in touch soon. If it's urgent, please call me at <a href="tel:+16053215367">605-321-5367</a>.</p>
         </div>
+
+        <!-- Desktop: fills the space under the contact info, beside the form. Phones: shows after the form. -->
+        <figure class="contact-photo">
+          <picture>
+            <source type="image/webp"
+                    srcset="assets/handshake-500.webp?v=20261008 500w, assets/handshake-840.webp?v=20261008 840w"
+                    sizes="(min-width: 900px) 416px, min(420px, calc(100vw - 32px))">
+            <img src="assets/handshake-840.jpg?v=20261008"
+                 srcset="assets/handshake-500.jpg?v=20261008 500w, assets/handshake-840.jpg?v=20261008 840w"
+                 sizes="(min-width: 900px) 416px, min(420px, calc(100vw - 32px))"
+                 alt="Nate Hall smiling and shaking hands with two clients outdoors"
+                 width="840" height="1260" loading="lazy" decoding="async">
+          </picture>
+        </figure>
       </div>
     </section>
   </main>
@@ -634,6 +648,6 @@
     <a class="btn btn-outline-light" href="#contact">Free Quote</a>
   </div>
 
-  <script src="js/main.js?v=20261008b" defer></script>
+  <script src="js/main.js?v=20261008c" defer></script>
 </body>
 </html>

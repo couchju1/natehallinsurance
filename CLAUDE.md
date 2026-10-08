@@ -92,6 +92,9 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
 - `assets/kitchen-table-{700,967}.{webp,jpg}`: photo of Nate with a couple at a kitchen table, shown above the
   "Common Questions" heading inside the FAQ's narrow container (same `.feature-photo.feature-photo--narrow` style, versioned URLs).
   The original is only 975px wide, which is why it sits in the narrower FAQ column instead of full width.
+- `assets/handshake-{500,840}.{webp,jpg}`: portrait (2:3) photo of Nate shaking hands with two clients outdoors.
+  `.contact-photo` in the Contact section: on desktop (≥900px) it sits in the left column under the contact
+  info, beside the form (grid row 2; the form spans both rows). On phones it shows after the form, max 420px wide.
 
 ## Cache-busting (important)
 - `css/styles.css` and `js/main.js` are linked with a version query (`?v=YYYYMMDD`) in index.html,

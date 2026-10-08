@@ -351,9 +351,19 @@ p { margin: 0 0 1em; }
 /* ---------- Contact ---------- */
 .contact-layout { display: grid; gap: 28px; }
 @media (min-width: 900px) {
-  .contact-layout { grid-template-columns: 1fr 1.5fr; gap: 48px; align-items: start; }
-  .form-success { grid-column: 2; }
+  .contact-layout { grid-template-columns: 1fr 1.5fr; grid-template-rows: auto 1fr; gap: 32px 48px; align-items: start; }
+  .contact-form, .form-success { grid-column: 2; grid-row: 1 / span 2; }
+  .contact-photo { grid-column: 1; grid-row: 2; max-width: none; }
 }
+
+/* Handshake photo beside the contact form (same frame as .feature-photo) */
+.contact-photo {
+  margin: 0 auto; width: 100%; max-width: 420px;
+  border-radius: calc(var(--radius) + 4px); overflow: hidden;
+  border: 1px solid #3a414c; background: var(--ink);
+  box-shadow: 0 18px 40px rgba(20, 23, 28, .18);
+}
+.contact-photo img { width: 100%; height: auto; }
 .contact-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
 .contact-list li { display: flex; align-items: center; gap: 10px; }
 .contact-list .icon { color: var(--gold-text); }
