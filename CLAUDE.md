@@ -88,6 +88,12 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
 - `assets/client-meeting-{700,1100,1600}.{webp,jpg}`: photo of Nate going over paperwork with a client, shown
   full-width above the "Get to Know Me" heading (`.feature-photo`, lazy-loaded, responsive `srcset`).
 
+## Cache-busting (important)
+- `css/styles.css` and `js/main.js` are linked with a version query (`?v=YYYYMMDD`) in index.html,
+  privacy.html, and thanks.html. **Bump it to today's date whenever styles.css or main.js changes.**
+  Hostinger's CDN once kept serving an old styles.css after an upload (new photo showed unstyled),
+  and the version change is what forces it and visitors' browsers to fetch the new file.
+
 ## Before finishing any change
 - Check the page at 375px and 1280px (no horizontal scroll), run axe-core, and confirm tabs, FAQ, tile
   links, and the form still work. After structural HTML edits, confirm tags are balanced and there's no
