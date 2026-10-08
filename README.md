@@ -3,7 +3,7 @@
 A single-page site for Nate Hall Insurance in Hartford, SD. It's built with plain HTML, CSS, and vanilla JS. There's no framework and no build step.
 
 ```
-nate-hall-insurance/
+natehallinsurance/
 ├── index.html        Main page
 ├── privacy.html      Privacy policy (linked from the footer)
 ├── thanks.html       Form confirmation page (used only if JavaScript is off)
@@ -12,6 +12,7 @@ nate-hall-insurance/
 ├── js/main.js        Tabs, FAQ accordion, testimonials carousel, form submit
 ├── assets/           logo.png, nate.jpg (+ .webp), og-image.jpg, favicons
 ├── netlify.toml      Only used if the site is ever hosted on Netlify again
+├── CLAUDE.md         Project notes and decisions for Claude Code sessions
 └── README.md
 ```
 
@@ -56,7 +57,6 @@ The site is hosted on **Hostinger** at www.natehallinsurance.com. The form posts
 ## Run it locally
 
 ```bash
-cd nate-hall-insurance
 php -S localhost:8000
 # open http://localhost:8000
 ```
@@ -66,8 +66,8 @@ Using `php -S` (not a plain static server) lets the form run. Real emails only g
 ## Deploy on Hostinger
 
 1. In hPanel, open **Websites → natehallinsurance.com → File Manager** and go into `public_html`.
-2. Upload the **contents** of the `nate-hall-insurance` folder (index.html, privacy.html, thanks.html, contact.php, and the `css`, `js`, and `assets` folders) so `index.html` sits directly in `public_html`. Replace the old files when asked.
-3. You don't need to upload `README.md` or `netlify.toml`.
+2. Upload the site files (index.html, privacy.html, thanks.html, contact.php, and the `css`, `js`, and `assets` folders) so `index.html` sits directly in `public_html`. Replace the old files when asked.
+3. You don't need to upload `README.md`, `CLAUDE.md`, or `netlify.toml`.
 4. Open the site and send a test from the form (see above).
 
 ## Hosting elsewhere
