@@ -85,7 +85,7 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
   It was rendered from an HTML template with Playwright (Chromium is at `/opt/pw-browsers/chromium` in
   cloud sessions); regenerate it whenever the photo, states, or products change.
 - `assets/logo.png`, `logo-sm.*`, `favicon.png`, `apple-touch-icon.png` come from Nate's shield logo.
-- `assets/client-meeting-{700,1100,1600}.{webp,jpg}`: photo of Nate going over paperwork with a family, shown
+- `assets/client-meeting-{700,1100,1600}.{webp,jpg}`: photo of Nate going over paperwork with a client, shown
   full-width above the "Get to Know Me" heading (`.feature-photo`, lazy-loaded, responsive `srcset`).
 
 ## Before finishing any change
