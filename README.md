@@ -7,6 +7,11 @@ natehallinsurance/
 ├── index.html        Main page
 ├── privacy.html      Privacy policy (linked from the footer)
 ├── thanks.html       Form confirmation page (used only if JavaScript is off)
+├── 404.html          "Page not found" page (root-relative links so it works at any missing URL)
+├── .htaccess         404 page, non-www → www redirect, security headers (Apache/LiteSpeed)
+├── robots.txt        Allows all crawlers; points to the sitemap
+├── sitemap.xml       Lists / and /privacy.html (add new public pages here)
+├── favicon.ico       Generated from assets/favicon.png (16/32/48px)
 ├── contact.php       Emails each contact form submission (needs PHP, e.g. Hostinger)
 ├── css/styles.css
 ├── js/main.js        Tabs, FAQ accordion, testimonials carousel, form submit
@@ -16,18 +21,12 @@ natehallinsurance/
 └── README.md
 ```
 
-## TODO placeholders (fill these in before launch)
+## Still optional
 
-Each placeholder is a plain-text token, so you can find and replace it across all files. Run this to list any that are left:
+The site files contain no comments or placeholders (by design). Two optional additions are still open:
 
-```bash
-grep -rn "TODO_" --include=*.html --include=*.js .
-```
-
-| Token | What to put there | Where it appears |
-|---|---|---|
-| `TODO_BIO` | More about Nate: background, family, hobbies | index.html, About tab (a commented-out template is ready to fill in) |
-| `TODO_NPN` *(optional)* | NPN / license number | index.html footer (commented out; uncomment to show it) |
+- **Longer bio** (background, family, hobbies): add a paragraph to the About tab in `index.html`.
+- **NPN / license number**: add `<p>NPN: …</p>` under "Licensed in…" in the footer of each page.
 
 > Link preview: `assets/og-image.jpg` (1200×630) is what shows when the site is shared on Facebook or by text. It's Nate's headshot with his name, title, and town, and it doesn't include contact info. Facebook caches previews, so after changing it, run the page URL through the [Sharing Debugger](https://developers.facebook.com/tools/debug/) and click **Scrape Again**.
 
@@ -39,7 +38,7 @@ grep -rn "TODO_" --include=*.html --include=*.js .
 
 ## Testimonials
 
-The carousel is built but hidden. To turn it on, open `js/main.js`, add real client quotes to the `TESTIMONIALS` array, and set `TESTIMONIALS_ENABLED = true`. Comments in that file explain how. Only use real reviews, with the client's permission.
+The carousel is built but hidden. To turn it on, open `js/main.js`, add real client quotes to the `TESTIMONIALS` array as `{ quote: 'Their words', name: 'Jane D.', place: 'Hartford, SD' }`, and set `TESTIMONIALS_ENABLED = true`. Only use real reviews, in the client's own words, with their permission.
 
 ## How the contact form works
 
@@ -66,7 +65,8 @@ Using `php -S` (not a plain static server) lets the form run. Real emails only g
 ## Deploy on Hostinger
 
 1. In hPanel, open **Websites → natehallinsurance.com → File Manager** and go into `public_html`.
-2. Upload the site files (index.html, privacy.html, thanks.html, contact.php, and the `css`, `js`, and `assets` folders) so `index.html` sits directly in `public_html`. Replace the old files when asked.
+2. Upload the site files (index.html, privacy.html, thanks.html, 404.html, contact.php, .htaccess, robots.txt, sitemap.xml, favicon.ico, and the `css`, `js`, and `assets` folders) so `index.html` sits directly in `public_html`. Replace the old files when asked.
+   **`.htaccess` caution:** Hostinger may already have a `.htaccess` in `public_html` (hidden file; turn on "Show hidden files"). Download a copy before replacing it, and merge any rules it had (for example a Force-HTTPS rule) into the new one.
 3. You don't need to upload `README.md`, `CLAUDE.md`, or `netlify.toml`.
 4. Open the site and send a test from the form (see above).
 

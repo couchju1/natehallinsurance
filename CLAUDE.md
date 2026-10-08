@@ -48,7 +48,8 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
 - Privacy policy uses "I/me", says the site is for adults 18+ ("I do not knowingly collect personal
   information from minors") — the owner didn't want "under 13" wording.
 - Testimonials carousel exists but is hidden (`TESTIMONIALS_ENABLED = false` in `js/main.js`). Never add
-  fake reviews — only real ones with the client's permission.
+  fake reviews — only real ones with the client's permission. Entry format:
+  `{ quote: 'Their words', name: 'Jane D.', place: 'Hartford, SD' }`.
 - Footer ends with a small gray designer credit under the copyright on all three pages:
   "Website by Justin Couch" (plain text, no link). Justin built the site; keep it.
 - Footer disclaimer (keep): "Insurance products are offered through various carriers. Not all products are
@@ -74,6 +75,10 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
 - Mobile-first; sticky header and a sticky bottom Call / Free Quote bar on phones.
 - Accessibility matters: axe-core has reported zero violations; tabs follow the WAI-ARIA pattern and the FAQ
   uses buttons with `aria-expanded`. Keep it that way.
+- Focus outline: ink (`var(--ink)`) on light backgrounds; gold inside dark areas (`.site-header`, `.hero`,
+  `.section-dark`, `.site-footer`, `.mobile-bar`, plus the dark `.office-box` and `.callout` islands).
+- **No comments in shipped files** (HTML, CSS, JS) — owner request so View Source is clean. Put notes here or
+  in README.md instead. `.check` labels are styled via `.field .check` (no `!important`).
 
 ## Images
 - `assets/nate.jpg` + `assets/nate.webp`: 560×700 (4:5). When Nate sends a new photo, crop to 4:5 keeping
@@ -95,15 +100,25 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
   Hostinger's CDN once kept serving an old styles.css after an upload (new photo showed unstyled),
   and the version change is what forces it and visitors' browsers to fetch the new file.
 
+## SEO / server files
+- Page title: "Insurance Agent in Hartford, SD | Nate Hall Insurance" (og:title matches). Meta description is
+  set in index.html; don't change copy without the owner.
+- `robots.txt` (allow all + sitemap), `sitemap.xml` (/ and /privacy.html; thanks.html and 404.html excluded —
+  add any new public page), `favicon.ico` at the root (from assets/favicon.png).
+- `404.html`: noindex, uses root-absolute URLs (`/css/...`, `/assets/...`, `/`) because it's served at any
+  missing path. `.htaccess`: `ErrorDocument 404 /404.html`, 301 natehallinsurance.com → www, and HSTS /
+  nosniff / Referrer-Policy / Permissions-Policy headers. Tested on Apache (mod_rewrite + mod_headers).
+- The zip for Hostinger includes `.htaccess`. Hostinger may already have its own `.htaccess` (e.g. Force HTTPS);
+  remind the owner to back it up and merge rather than blindly overwrite.
+
 ## Before finishing any change
 - Check the page at 375px and 1280px (no horizontal scroll), run axe-core, and confirm tabs, FAQ, tile
   links, and the form still work. After structural HTML edits, confirm tags are balanced and there's no
   leftover/duplicated content (a past edit left a stray duplicate Cancer paragraph).
 
 ## Still open (optional)
-- `TODO_BIO`: longer bio (background, family, hobbies) — commented template in the About tab.
-- `TODO_NPN`: license/NPN number — commented out in the footers.
-- Page `<title>` still reads "Life & Final Expense Insurance Agent in Hartford, SD"; it was offered to change
-  it to reflect the new product lineup (e.g. "Life Insurance, Medicare & Retirement") — owner hasn't decided.
+- Longer bio (background, family, hobbies) for the About tab — not provided yet (the old commented
+  template was removed with the comment cleanup).
+- NPN / license number for the footers — not provided yet.
 - Medicare card mentions Medicare Advantage and drug plans as general education; confirm with the owner if he
   doesn't handle those.

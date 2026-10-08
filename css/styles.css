@@ -1,20 +1,15 @@
-/* ==========================================================================
-   Nate Hall Insurance — styles
-   Mobile-first. Palette drawn from the brushed-steel shield logo.
-   ========================================================================== */
-
 :root {
-  --ink: #14171c;        /* header, hero, footer */
-  --charcoal: #262b33;   /* dark panels */
-  --steel: #5b6573;      /* secondary text on light */
-  --silver: #c9ced6;     /* text/borders on dark */
-  --line: #dde1e6;       /* borders on light */
-  --mist: #f3f4f6;       /* light section background */
+  --ink: #14171c;
+  --charcoal: #262b33;
+  --steel: #5b6573;
+  --silver: #c9ced6;
+  --line: #dde1e6;
+  --mist: #f3f4f6;
   --white: #ffffff;
-  --text: #1b1f25;       /* body text on light */
-  --gold: #c9a24a;       /* accent on dark backgrounds / button fill */
+  --text: #1b1f25;
+  --gold: #c9a24a;
   --gold-hover: #d8b663;
-  --gold-text: #8a6420;  /* accent text on light backgrounds */
+  --gold-text: #8a6420;
 
   --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-head: "Cormorant Garamond", Georgia, "Times New Roman", serif;
@@ -25,7 +20,6 @@
   --mobile-bar-h: 72px;
 }
 
-/* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 @media (prefers-reduced-motion: reduce) {
@@ -39,7 +33,7 @@ body {
   line-height: 1.65;
   color: var(--text);
   background: var(--white);
-  padding-bottom: var(--mobile-bar-h); /* room for the mobile action bar */
+  padding-bottom: var(--mobile-bar-h);
 }
 img { max-width: 100%; height: auto; display: block; }
 a { color: var(--gold-text); text-underline-offset: 3px; }
@@ -49,7 +43,9 @@ p { margin: 0 0 1em; }
 [hidden] { display: none !important; }
 :target, section[id] { scroll-margin-top: calc(var(--header-h) + 12px); }
 
-:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+.site-header :focus-visible, .hero :focus-visible, .section-dark :focus-visible, .site-footer :focus-visible, .mobile-bar :focus-visible,
+.office-box :focus-visible, .callout :focus-visible { outline-color: var(--gold); }
 
 .visually-hidden {
   position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
@@ -72,7 +68,6 @@ p { margin: 0 0 1em; }
 .container { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 16px; }
 .container-narrow { max-width: 820px; }
 
-/* ---------- Buttons ---------- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   min-height: 48px; padding: 12px 22px; border-radius: 999px;
@@ -85,7 +80,6 @@ p { margin: 0 0 1em; }
 .btn-outline-light:hover { background: var(--white); color: var(--ink); border-color: var(--white); }
 .btn-block { width: 100%; }
 
-/* ---------- Header ---------- */
 .site-header {
   position: sticky; top: 0; z-index: 50;
   background: rgba(20, 23, 28, .97);
@@ -95,7 +89,7 @@ p { margin: 0 0 1em; }
 .site-header.is-scrolled { box-shadow: 0 4px 18px rgba(0, 0, 0, .35); }
 .header-inner { display: flex; align-items: center; justify-content: space-between; min-height: var(--header-h); }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--white); }
-.brand:hover, .brand:active, .brand:focus { color: var(--white); } /* stay light on the dark header */
+.brand:hover, .brand:active, .brand:focus { color: var(--white); }
 .brand img { width: 48px; height: auto; border-radius: 6px; }
 .brand-text { font-family: var(--font-head); font-size: 1.35rem; font-weight: 700; letter-spacing: .02em; line-height: 1.1; }
 .brand-text span { color: var(--silver); font-weight: 600; }
@@ -114,7 +108,6 @@ p { margin: 0 0 1em; }
   .brand-text span { display: none; }
 }
 
-/* ---------- Hero / agent card ---------- */
 .hero {
   color: var(--white);
   background:
@@ -154,7 +147,6 @@ p { margin: 0 0 1em; }
   .btn-row .btn { flex: 0 0 auto; }
 }
 
-/* ---------- Sections ---------- */
 .section { padding: 56px 0; }
 .section-tight { padding: 0 0 56px; }
 .section-mist { background: var(--mist); }
@@ -173,7 +165,6 @@ p { margin: 0 0 1em; }
 .section-lead { text-align: center; max-width: 60ch; margin: -.5em auto 2em; color: var(--steel); }
 .section-dark .section-lead { color: var(--silver); }
 
-/* ---------- Specializing In ---------- */
 .tile-grid {
   list-style: none; margin: 0; padding: 0;
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
@@ -194,7 +185,6 @@ p { margin: 0 0 1em; }
 @media (min-width: 600px) { .tile-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
 @media (min-width: 1024px) { .tile-grid { grid-template-columns: repeat(6, 1fr); } }
 
-/* Retirement callout under the tiles */
 .callout {
   display: grid; gap: 16px; align-items: center; margin-top: 24px;
   padding: 24px 22px; border-radius: var(--radius);
@@ -212,7 +202,6 @@ p { margin: 0 0 1em; }
   .callout { grid-template-columns: auto 1fr auto; gap: 24px; padding: 26px 32px; }
 }
 
-/* ---------- Office box ---------- */
 .office-box {
   background: var(--ink); color: var(--white); border-radius: calc(var(--radius) + 4px);
   padding: 28px 22px; box-shadow: var(--shadow);
@@ -234,18 +223,15 @@ p { margin: 0 0 1em; }
 .office-item dd a:hover { color: var(--gold); }
 @media (min-width: 600px) {
   .office-box { padding: 32px 36px; }
-  /* 2 x 2 on tablets */
   .office-grid { grid-template-columns: 1fr 1fr; gap: 24px 32px; }
   .office-item:nth-child(2) { border-top: 0; padding-top: 0; }
 }
 @media (min-width: 1024px) {
-  /* 4 across on desktop; the hours column gets extra room */
   .office-grid { grid-template-columns: .9fr 1.1fr 1.45fr 1fr; gap: 24px; }
   .office-item { border-top: 0; padding-top: 0; border-left: 1px solid rgba(201, 206, 214, .18); padding-left: 20px; }
   .office-item:first-child { border-left: 0; padding-left: 0; }
 }
 
-/* ---------- Tabs ---------- */
 .tab-list {
   display: flex; gap: 4px; padding: 4px; margin: 0 auto 24px; max-width: 520px;
   background: var(--white); border: 1px solid var(--line); border-radius: 999px;
@@ -302,7 +288,6 @@ p { margin: 0 0 1em; }
 }
 .state-list .icon { color: var(--gold-text); stroke-width: 2.5; }
 
-/* ---------- Why independent ---------- */
 .why-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
 @media (min-width: 700px) { .why-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1024px) { .why-grid { grid-template-columns: repeat(4, 1fr); } }
@@ -317,7 +302,6 @@ p { margin: 0 0 1em; }
   border: 1px solid var(--gold); color: var(--gold);
 }
 
-/* ---------- Testimonials carousel ---------- */
 .carousel { max-width: 760px; margin: 0 auto; text-align: center; }
 .carousel-track { position: relative; min-height: 160px; }
 .testimonial { margin: 0; }
@@ -333,7 +317,6 @@ p { margin: 0 0 1em; }
 .carousel-btn:hover { border-color: var(--gold); }
 .carousel-status { margin: 0; min-width: 4em; color: var(--steel); font-size: .95rem; }
 
-/* ---------- FAQ accordion ---------- */
 .accordion { border-top: 1px solid var(--line); }
 .acc-item { border-bottom: 1px solid var(--line); }
 .acc-heading { margin: 0; font-size: 1rem; }
@@ -348,7 +331,6 @@ p { margin: 0 0 1em; }
 .acc-panel { padding: 0 4px 18px; color: #343a44; }
 .acc-panel p { margin: 0; }
 
-/* ---------- Contact ---------- */
 .contact-layout { display: grid; gap: 28px; }
 @media (min-width: 900px) {
   .contact-layout { grid-template-columns: 1fr 1.5fr; gap: 48px; align-items: start; }
@@ -380,13 +362,13 @@ input[type="text"], input[type="email"], input[type="tel"], textarea {
   font: 400 1rem/1.4 var(--font-body);
 }
 textarea { resize: vertical; min-height: 110px; }
-input:focus-visible, textarea:focus-visible { outline: 3px solid var(--gold); outline-offset: 1px; border-color: var(--ink); }
+input:focus-visible, textarea:focus-visible { outline: 3px solid var(--ink); outline-offset: 1px; border-color: var(--ink); }
 input[aria-invalid="true"] { border-color: #a3320b; }
 .checks { border: 0; padding: 0; margin: 0 0 16px; display: grid; gap: 8px; }
 @media (min-width: 600px) { .checks { grid-template-columns: 1fr 1fr; } .checks legend { grid-column: 1 / -1; } }
-.check {
-  display: flex !important; align-items: center; gap: 10px; min-height: 44px; padding: 8px 12px; margin: 0 !important;
-  border: 1px solid var(--line); border-radius: 8px; font-weight: 500 !important; cursor: pointer;
+.field .check {
+  display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 8px 12px; margin: 0;
+  border: 1px solid var(--line); border-radius: 8px; font-weight: 500; cursor: pointer;
 }
 .check:has(input:checked) { border-color: var(--gold); background: #fbf5e6; }
 .check input { width: 20px; height: 20px; accent-color: var(--ink); margin: 0; }
@@ -394,7 +376,6 @@ input[aria-invalid="true"] { border-color: #a3320b; }
 .form-fine { font-size: .88rem; color: var(--steel); margin: 12px 0 0; text-align: center; }
 .form-success h3 { font-family: var(--font-head); font-size: 2rem; }
 
-/* ---------- Footer ---------- */
 .site-footer { background: var(--ink); color: var(--silver); padding: 40px 0 28px; font-size: .95rem; }
 .footer-inner { display: grid; gap: 20px; padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid rgba(201, 206, 214, .15); }
 .footer-brand p { margin: 0 0 .2em; }
@@ -410,7 +391,6 @@ input[aria-invalid="true"] { border-color: #a3320b; }
   .footer-inner { grid-template-columns: 1fr auto; align-items: center; }
 }
 
-/* ---------- Mobile sticky action bar ---------- */
 .mobile-bar {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
   display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
@@ -424,7 +404,6 @@ input[aria-invalid="true"] { border-color: #a3320b; }
   body { padding-bottom: 0; }
 }
 
-/* ---------- Privacy page ---------- */
 .page-header { background: var(--ink); color: var(--white); padding: 48px 0 40px; }
 .page-header h1 { font-family: var(--font-head); font-size: clamp(2.4rem, 7vw, 3.2rem); margin: 0; }
 .page-header p { color: var(--silver); margin: .4em 0 0; }
@@ -434,7 +413,6 @@ input[aria-invalid="true"] { border-color: #a3320b; }
 .legal li { margin-bottom: .4em; }
 .page-privacy { padding-bottom: 0; }
 
-/* Office hours list */
 .hours { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
 .hours li { display: flex; gap: 8px; white-space: nowrap; }
 .hours span { font-weight: 600; min-width: 5.2em; color: var(--white); }

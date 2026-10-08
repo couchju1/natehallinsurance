@@ -1,27 +1,10 @@
-/* Nate Hall Insurance — small vanilla JS helpers. No dependencies. */
 (function () {
   'use strict';
 
-  /* ------------------------------------------------------------------
-     TESTIMONIALS
-     The carousel stays hidden until TESTIMONIALS_ENABLED is true AND
-     there is at least one entry below.
-
-     How to add real reviews:
-       1. Only use real words from real clients, with their permission
-          (a text or email saying "yes, you can use this" is enough).
-       2. Copy their words as written. Light spelling fixes are fine;
-          don't add claims they didn't make.
-       3. Use first name + last initial and town, unless they say otherwise.
-       4. Add one object per review, then set TESTIMONIALS_ENABLED = true:
-          { quote: 'Their words here.', name: 'Jane D.', place: 'Hartford, SD' }
-     ------------------------------------------------------------------ */
   var TESTIMONIALS_ENABLED = false;
   var TESTIMONIALS = [
-    // { quote: '', name: '', place: '' },
   ];
 
-  /* ---------- Sticky header shadow ---------- */
   var header = document.querySelector('.site-header');
   if (header) {
     var onScroll = function () { header.classList.toggle('is-scrolled', window.scrollY > 8); };
@@ -29,7 +12,6 @@
     onScroll();
   }
 
-  /* ---------- Tabs (WAI-ARIA tabs pattern, automatic activation) ---------- */
   var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
 
   function activateTab(tab, setFocus) {
@@ -54,7 +36,6 @@
     });
   });
 
-  // "Specializing In" tiles open the Coverage tab and jump to the matching card.
   function openCoverageCard(id, smooth) {
     var card = document.getElementById(id);
     var tab = document.getElementById('tab-coverage');
@@ -79,7 +60,6 @@
 
   if (/^#coverage-/.test(location.hash)) openCoverageCard(location.hash.slice(1), false);
 
-  // Links like the retirement callout can pre-check a product on the contact form.
   document.querySelectorAll('[data-interest]').forEach(function (link) {
     link.addEventListener('click', function () {
       var box = document.querySelector('.contact-form input[name="interests[]"][value="' + link.getAttribute('data-interest') + '"]');
@@ -87,7 +67,6 @@
     });
   });
 
-  /* ---------- FAQ accordion ---------- */
   document.querySelectorAll('.acc-trigger').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var open = btn.getAttribute('aria-expanded') === 'true';
@@ -96,7 +75,6 @@
     });
   });
 
-  /* ---------- Testimonials carousel ---------- */
   (function initTestimonials() {
     var section = document.getElementById('testimonials');
     if (!section || !TESTIMONIALS_ENABLED || TESTIMONIALS.length === 0) return;
@@ -137,7 +115,6 @@
     render();
   })();
 
-  /* ---------- Contact form (emailed by contact.php, submitted with fetch) ---------- */
   var form = document.querySelector('.contact-form');
   if (form) {
     var errorBox = form.querySelector('[data-form-error]');
@@ -177,7 +154,6 @@
         body: new URLSearchParams(new FormData(form)).toString()
       })
         .then(function (res) {
-          // Only show "Thank you" when contact.php confirms the email was sent.
           return res.json().catch(function () { return {}; }).then(function (data) {
             if (!res.ok || !data.ok) throw new Error(data.message || 'HTTP ' + res.status);
           });
@@ -188,7 +164,6 @@
           success.focus();
         })
         .catch(function (err) {
-          // Show contact.php's own message (e.g. "Please enter a valid email address.") when there is one.
           var msg = err && err.message && !/^HTTP |JSON|fetch/i.test(err.message)
             ? err.message : 'Sorry, something went wrong sending your request.';
           showError(msg + ' If it keeps happening, please call me at 605-321-5367.');
