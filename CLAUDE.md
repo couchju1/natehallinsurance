@@ -49,6 +49,8 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
   information from minors") — the owner didn't want "under 13" wording.
 - Testimonials carousel exists but is hidden (`TESTIMONIALS_ENABLED = false` in `js/main.js`). Never add
   fake reviews — only real ones with the client's permission.
+- Footer ends with a small gray designer credit under the copyright on all three pages:
+  "Website by Justin Couch" (plain text, no link). Justin built the site; keep it.
 - Footer disclaimer (keep): "Insurance products are offered through various carriers. Not all products are
   available in all states. This site is for informational purposes and is not a contract or offer of coverage."
 
@@ -83,6 +85,8 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
   It was rendered from an HTML template with Playwright (Chromium is at `/opt/pw-browsers/chromium` in
   cloud sessions); regenerate it whenever the photo, states, or products change.
 - `assets/logo.png`, `logo-sm.*`, `favicon.png`, `apple-touch-icon.png` come from Nate's shield logo.
+- `assets/client-meeting-{700,1100,1600}.{webp,jpg}`: photo of Nate going over paperwork with a family, shown
+  full-width above the "Get to Know Me" heading (`.feature-photo`, lazy-loaded, responsive `srcset`).
 
 ## Before finishing any change
 - Check the page at 375px and 1280px (no horizontal scroll), run axe-core, and confirm tabs, FAQ, tile

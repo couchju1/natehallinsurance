@@ -404,6 +404,15 @@ input[aria-invalid="true"] { border-color: #a3320b; }
 .footer-links a:hover { color: var(--gold); }
 .disclaimer { font-size: .85rem; line-height: 1.6; max-width: 90ch; }
 .copyright { font-size: .85rem; margin: 0; }
+.credit { font-size: .8rem; margin: 4px 0 0; color: #9aa2ad; }
+
+/* Client meeting photo above "Get to Know Me" */
+.feature-photo {
+  margin: 0 0 40px; border-radius: var(--radius); overflow: hidden;
+  box-shadow: 0 18px 40px rgba(20, 23, 28, .18);
+}
+.feature-photo img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+@media (min-width: 768px) { .feature-photo { margin-bottom: 56px; } }
 @media (min-width: 768px) {
   .footer-inner { grid-template-columns: 1fr auto; align-items: center; }
 }
