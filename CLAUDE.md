@@ -85,11 +85,12 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
   It was rendered from an HTML template with Playwright (Chromium is at `/opt/pw-browsers/chromium` in
   cloud sessions); regenerate it whenever the photo, states, or products change.
 - `assets/logo.png`, `logo-sm.*`, `favicon.png`, `apple-touch-icon.png` come from Nate's shield logo.
-- `assets/client-meeting-{700,1100,1600}.{webp,jpg}`: photo of Nate going over paperwork with a client, shown
-  full-width above the "Get to Know Me" heading (`.feature-photo`, lazy-loaded, responsive `srcset`).
-  Its URLs carry `?v=YYYYMMDD` as well — bump it when the photo changes. Cropped to 16:9 (1600×900 max).
+- `assets/client-meeting-{700,1100,1365}.{webp,jpg}`: photo of Nate going over paperwork with a client, shown
+  above the "Get to Know Me" heading (`.feature-photo.feature-photo--narrow`, lazy-loaded, responsive `srcset`).
+  Its URLs carry `?v=YYYYMMDD` as well — bump it when the photo changes. Cropped to 16:9.
+  Owner asked for it to match picture 3: same 16:9 ratio and same width (max 788px, centered).
 - `assets/kitchen-table-{700,967}.{webp,jpg}`: photo of Nate with a couple at a kitchen table, shown above the
-  "Common Questions" heading inside the FAQ's narrow container (same `.feature-photo` style, versioned URLs).
+  "Common Questions" heading inside the FAQ's narrow container (same `.feature-photo.feature-photo--narrow` style, versioned URLs).
   The original is only 975px wide, which is why it sits in the narrower FAQ column instead of full width.
 
 ## Cache-busting (important)

@@ -415,6 +415,8 @@ input[aria-invalid="true"] { border-color: #a3320b; }
 }
 .feature-photo img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
 @media (min-width: 768px) { .feature-photo { margin-bottom: 56px; } }
+/* Both feature photos share the FAQ column width (820px container minus 16px gutters), centered */
+.feature-photo--narrow { max-width: 788px; margin-left: auto; margin-right: auto; }
 @media (min-width: 768px) {
   .footer-inner { grid-template-columns: 1fr auto; align-items: center; }
 }
