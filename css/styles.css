@@ -351,24 +351,8 @@ p { margin: 0 0 1em; }
 /* ---------- Contact ---------- */
 .contact-layout { display: grid; gap: 28px; }
 @media (min-width: 900px) {
-  .contact-layout { grid-template-columns: 1fr 1.5fr; grid-template-rows: auto 1fr; gap: 32px 48px; align-items: start; }
-  .contact-form, .form-success { grid-column: 2; grid-row: 1 / span 2; }
-  .contact-photo { grid-column: 1; grid-row: 2; max-width: none; }
-}
-
-/* Handshake photo beside the contact form (same frame as .feature-photo) */
-.contact-photo {
-  margin: 0 auto; width: 100%; max-width: 420px;
-  border-radius: calc(var(--radius) + 4px); overflow: hidden;
-  border: 1px solid #3a414c; background: var(--ink);
-  box-shadow: 0 18px 40px rgba(20, 23, 28, .18);
-}
-.contact-photo img { width: 100%; height: auto; }
-/* Desktop: the photo fills the space beside the form so it ends exactly at the form's bottom edge.
-   object-fit: cover trims a little from the sides instead of stretching (no distortion). */
-@media (min-width: 900px) {
-  .contact-photo { align-self: stretch; position: relative; min-height: 420px; }
-  .contact-photo img { position: absolute; inset: 0; height: 100%; object-fit: cover; object-position: 50% 40%; }
+  .contact-layout { grid-template-columns: 1fr 1.5fr; gap: 48px; align-items: start; }
+  .form-success { grid-column: 2; }
 }
 .contact-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
 .contact-list li { display: flex; align-items: center; gap: 10px; }
@@ -422,17 +406,6 @@ input[aria-invalid="true"] { border-color: #a3320b; }
 .copyright { font-size: .85rem; margin: 0; }
 .credit { font-size: .8rem; margin: 4px 0 0; color: #9aa2ad; }
 
-/* Client meeting photo above "Get to Know Me" */
-.feature-photo {
-  /* Same corner radius and edge as .office-box so the two line up visually */
-  margin: 0 0 40px; border-radius: calc(var(--radius) + 4px); overflow: hidden;
-  border: 1px solid #3a414c; background: var(--ink);
-  box-shadow: 0 18px 40px rgba(20, 23, 28, .18);
-}
-.feature-photo img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
-@media (min-width: 768px) { .feature-photo { margin-bottom: 56px; } }
-/* Both feature photos share the FAQ column width (820px container minus 16px gutters), centered */
-.feature-photo--narrow { max-width: 788px; margin-left: auto; margin-right: auto; }
 @media (min-width: 768px) {
   .footer-inner { grid-template-columns: 1fr auto; align-items: center; }
 }

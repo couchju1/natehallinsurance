@@ -85,17 +85,9 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
   It was rendered from an HTML template with Playwright (Chromium is at `/opt/pw-browsers/chromium` in
   cloud sessions); regenerate it whenever the photo, states, or products change.
 - `assets/logo.png`, `logo-sm.*`, `favicon.png`, `apple-touch-icon.png` come from Nate's shield logo.
-- `assets/client-meeting-{700,1100,1365}.{webp,jpg}`: photo of Nate going over paperwork with a client, shown
-  above the "Get to Know Me" heading (`.feature-photo.feature-photo--narrow`, lazy-loaded, responsive `srcset`).
-  Its URLs carry `?v=YYYYMMDD` as well — bump it when the photo changes. Cropped to 16:9.
-  Owner asked for it to match picture 3: same 16:9 ratio and same width (max 788px, centered).
-- `assets/kitchen-table-{700,1100,1576}.{webp,jpg}`: photo of Nate with a couple at a kitchen table, shown above the
-  "Common Questions" heading inside the FAQ's narrow container (same `.feature-photo.feature-photo--narrow` style,
-  versioned URLs). Same 16:9 ratio and width as picture 2 (max 788px, centered).
-- `assets/handshake-{500,840}.{webp,jpg}`: portrait (2:3) photo of Nate shaking hands with two clients outdoors.
-  `.contact-photo` in the Contact section: on desktop (≥900px) it sits in the left column under the contact
-  info, beside the form (grid row 2; the form spans both rows). On phones it shows after the form, max 420px wide.
-  On desktop it stretches to end exactly at the form box's bottom (owner request) via object-fit: cover (trims the sides, no distortion).
+- Owner decision: **no other photos on the page besides the profile headshot.** Three extra photos (client
+  meeting above "Get to Know Me", kitchen table above "Common Questions", handshake beside the contact form)
+  were added and then removed at the owner's request. Don't re-add photos unless asked.
 
 ## Cache-busting (important)
 - `css/styles.css` and `js/main.js` are linked with a version query (`?v=YYYYMMDD`) in index.html,
