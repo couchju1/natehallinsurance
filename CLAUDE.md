@@ -95,6 +95,7 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
 - `assets/handshake-{500,840}.{webp,jpg}`: portrait (2:3) photo of Nate shaking hands with two clients outdoors.
   `.contact-photo` in the Contact section: on desktop (≥900px) it sits in the left column under the contact
   info, beside the form (grid row 2; the form spans both rows). On phones it shows after the form, max 420px wide.
+  On desktop it stretches to end exactly at the form box's bottom (owner request) via object-fit: cover (trims the sides, no distortion).
 
 ## Cache-busting (important)
 - `css/styles.css` and `js/main.js` are linked with a version query (`?v=YYYYMMDD`) in index.html,
