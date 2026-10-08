@@ -87,6 +87,7 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
 - `assets/logo.png`, `logo-sm.*`, `favicon.png`, `apple-touch-icon.png` come from Nate's shield logo.
 - `assets/client-meeting-{700,1100,1600}.{webp,jpg}`: photo of Nate going over paperwork with a client, shown
   full-width above the "Get to Know Me" heading (`.feature-photo`, lazy-loaded, responsive `srcset`).
+  Its URLs carry `?v=YYYYMMDD` as well — bump it when the photo changes. Cropped to 16:9 (1600×900 max).
 
 ## Cache-busting (important)
 - `css/styles.css` and `js/main.js` are linked with a version query (`?v=YYYYMMDD`) in index.html,
