@@ -78,7 +78,7 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
 ## Images
 - `assets/nate.jpg` + `assets/nate.webp`: 560×700 (4:5). When Nate sends a new photo, crop to 4:5 keeping
   head and shoulders (trim evenly from the long side), resize to 560×700, strip metadata, JPEG q≈82
-  progressive and WebP q≈78. Update the `alt` text if the clothing changes (currently "charcoal blazer and black shirt").
+  progressive and WebP q≈78. Update the `alt` text if the clothing changes (currently "black quarter-zip pullover"). The headshot `src`/`srcset`/preload use `?v=YYYYMMDD` too — bump it when the photo changes.
 - `assets/og-image.jpg`: 1200×630 link-preview card — headshot in a silver frame on the left; on the right
   "NATE HALL INSURANCE", "Nate Hall", "Your local insurance agent", "Independent Insurance Agent",
   "Hartford, South Dakota", "Licensed in SD · ND · IA · NE · MN", and the six products. No contact info.
