@@ -51,7 +51,8 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
   fake reviews — only real ones with the client's permission. Entry format:
   `{ quote: 'Their words', name: 'Jane D.', place: 'Hartford, SD' }`.
 - Footer ends with a small gray designer credit under the copyright on all three pages:
-  "Website by Justin Couch" (plain text, no link). Justin built the site; keep it.
+  "Website created by Couch & Craft", with "Couch & Craft" linking to https://www.couchandcraft.com
+  (Justin Couch's web design business; he built the site). Keep it.
 - Footer disclaimer (keep): "Insurance products are offered through various carriers. Not all products are
   available in all states. This site is for informational purposes and is not a contract or offer of coverage."
 
