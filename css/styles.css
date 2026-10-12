@@ -386,6 +386,8 @@ input[aria-invalid="true"] { border-color: #a3320b; }
 .disclaimer { font-size: .85rem; line-height: 1.6; max-width: 90ch; }
 .copyright { font-size: .85rem; margin: 0; }
 .credit { font-size: .8rem; margin: 4px 0 0; color: #9aa2ad; }
+.credit a { color: inherit; }
+.credit a:hover { color: var(--gold); }
 
 @media (min-width: 768px) {
   .footer-inner { grid-template-columns: 1fr auto; align-items: center; }
