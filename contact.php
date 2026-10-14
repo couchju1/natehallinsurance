@@ -22,6 +22,9 @@ $MIN_SECONDS = 3;
 // Private folder next to public_html (not reachable from the web). Holds
 // config.php with the Turnstile secret key, and the spam rejection log.
 $PRIVATE_DIR = dirname(__DIR__) . '/nhi-private';
+// Turnstile: the action set in js/main.js, and the site addresses a token may come from.
+$TURNSTILE_ACTION = 'contact';
+$TURNSTILE_HOSTNAMES = ['www.natehallinsurance.com', 'natehallinsurance.com'];
 // Time zone used for the "Sent" time in each email (Hartford, SD is Central).
 date_default_timezone_set('America/Chicago');
 // ---------------------------------------------------------------------------
@@ -72,21 +75,33 @@ function reject_spam($reason)
     respond(true, 'Thanks! Your request was sent.');
 }
 
-function turnstile_secret()
+function turnstile_config()
 {
-    global $PRIVATE_DIR;
-    $secret = getenv('TURNSTILE_SECRET_KEY');
-    if (is_string($secret) && $secret !== '') return $secret;
+    global $PRIVATE_DIR, $TURNSTILE_HOSTNAMES;
+    $config = [];
     $file = $PRIVATE_DIR . '/config.php';
     if (is_readable($file)) {
-        $config = include $file;
-        if (is_array($config) && !empty($config['turnstile_secret'])) return (string) $config['turnstile_secret'];
+        $loaded = include $file;
+        if (is_array($loaded)) $config = $loaded;
     }
-    return '';
+    $secret = getenv('TURNSTILE_SECRET_KEY');
+    if (!is_string($secret) || $secret === '') {
+        $secret = isset($config['turnstile_secret']) ? (string) $config['turnstile_secret'] : '';
+    }
+    $hosts = getenv('TURNSTILE_HOSTNAMES');
+    if (is_string($hosts) && trim($hosts) !== '') {
+        $hosts = explode(',', $hosts);
+    } elseif (isset($config['turnstile_hostnames']) && is_array($config['turnstile_hostnames'])) {
+        $hosts = $config['turnstile_hostnames'];
+    } else {
+        $hosts = $TURNSTILE_HOSTNAMES;
+    }
+    $hosts = array_values(array_filter(array_map(function ($h) { return strtolower(trim((string) $h)); }, $hosts)));
+    return ['secret' => trim($secret), 'hostnames' => $hosts];
 }
 
-// Returns 'pass', 'fail', or 'unknown' (Cloudflare couldn't be reached).
-function turnstile_verify($secret, $token, $ip)
+// Returns [status, detail]. Status is 'pass', 'fail', or 'unknown' (Cloudflare couldn't be reached).
+function turnstile_verify($secret, $token, $ip, $hostnames, $action)
 {
     $data = http_build_query(['secret' => $secret, 'response' => $token, 'remoteip' => $ip]);
     $url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
@@ -98,23 +113,36 @@ function turnstile_verify($secret, $token, $ip)
             CURLOPT_POSTFIELDS => $data,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CONNECTTIMEOUT => 5,
-            CURLOPT_TIMEOUT => 8,
+            CURLOPT_TIMEOUT => 10,
         ]);
         $raw = curl_exec($ch);
+        if (curl_getinfo($ch, CURLINFO_HTTP_CODE) !== 200) $raw = false;
         curl_close($ch);
     } else {
         $raw = @file_get_contents($url, false, stream_context_create(['http' => [
             'method' => 'POST',
             'header' => 'Content-Type: application/x-www-form-urlencoded',
             'content' => $data,
-            'timeout' => 8,
+            'timeout' => 10,
         ]]));
     }
     $result = is_string($raw) ? json_decode($raw, true) : null;
-    if (!is_array($result)) return 'unknown';
-    if (!empty($result['success'])) return 'pass';
-    $codes = isset($result['error-codes']) ? (array) $result['error-codes'] : [];
-    return in_array('internal-error', $codes, true) ? 'unknown' : 'fail';
+    return turnstile_judge($result, $hostnames, $action);
+}
+
+function turnstile_judge($result, $hostnames, $action)
+{
+    if (!is_array($result)) return ['unknown', 'no response from Cloudflare'];
+    if (empty($result['success'])) {
+        $codes = isset($result['error-codes']) ? (array) $result['error-codes'] : [];
+        if (in_array('internal-error', $codes, true)) return ['unknown', 'Cloudflare internal error'];
+        return ['fail', 'Turnstile token rejected (' . implode(', ', $codes) . ')'];
+    }
+    $gotAction = isset($result['action']) ? (string) $result['action'] : '';
+    if ($gotAction !== $action) return ['fail', "Turnstile action was \"$gotAction\", expected \"$action\""];
+    $gotHost = isset($result['hostname']) ? strtolower((string) $result['hostname']) : '';
+    if (!in_array($gotHost, $hostnames, true)) return ['fail', "Turnstile hostname \"$gotHost\" is not allowed"];
+    return ['pass', ''];
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -144,6 +172,9 @@ $token = isset($_POST['cf-turnstile-response']) && is_string($_POST['cf-turnstil
 $widgetFailed = isset($_POST['turnstile_status']) && $_POST['turnstile_status'] === 'unavailable';
 if ($token === '' && !$widgetFailed) {
     reject_spam('no Turnstile token');
+}
+if (strlen($token) > 2048) {
+    reject_spam('Turnstile token too long');
 }
 
 // Simple per-IP rate limit stored in the server's temp folder.
@@ -206,12 +237,12 @@ if ($sameName) {
 $verified = false;
 $unverifiedWhy = 'the spam check did not load in the visitor\'s browser';
 if ($token !== '') {
-    $secret = turnstile_secret();
-    if ($secret === '') {
+    $turnstile = turnstile_config();
+    if ($turnstile['secret'] === '') {
         $unverifiedWhy = 'the Turnstile secret key is not set up on the server';
     } else {
-        $check = turnstile_verify($secret, $token, $ip);
-        if ($check === 'fail') reject_spam('Turnstile token rejected');
+        list($check, $detail) = turnstile_verify($turnstile['secret'], $token, $ip, $turnstile['hostnames'], $TURNSTILE_ACTION);
+        if ($check === 'fail') reject_spam($detail);
         if ($check === 'pass') $verified = true;
         else $unverifiedWhy = 'Cloudflare could not be reached to check it';
     }

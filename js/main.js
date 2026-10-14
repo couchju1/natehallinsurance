@@ -143,6 +143,7 @@
         try {
           widgetId = window.turnstile.render(widgetBox, {
             sitekey: siteKey,
+            action: 'contact',
             appearance: 'interaction-only',
             size: 'flexible',
             callback: function () { settleWidget('ready'); },
@@ -166,7 +167,10 @@
       if (widgetState !== 'loading') return Promise.resolve();
       return new Promise(function (resolve) {
         widgetWaiters.push(resolve);
-        setTimeout(resolve, 8000);
+        setTimeout(function () {
+          if (widgetState === 'loading') settleWidget('unavailable');
+          resolve();
+        }, 8000);
       });
     }
 
@@ -214,10 +218,11 @@
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending…';
 
+      var sentAt = String(Date.now());
       widgetSettled()
         .then(function () {
           var data = new FormData(form);
-          data.set('form_sent', String(Date.now()));
+          data.set('form_sent', sentAt);
           return fetch(form.getAttribute('action'), {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },

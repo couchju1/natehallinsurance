@@ -57,15 +57,17 @@ The site is hosted on **Hostinger** at www.natehallinsurance.com. The form posts
 
 ### One-time Turnstile setup
 
-1. Log in at [dash.cloudflare.com](https://dash.cloudflare.com) (a free account works) → **Turnstile** → **Add widget**.
-2. Name it "Nate Hall Insurance", add the hostnames `natehallinsurance.com` and `www.natehallinsurance.com`, choose **Invisible** (or **Managed**), and click **Create**.
-3. Copy the **Site Key** into `index.html`: find `data-sitekey=""` and put the key between the quotes. (The site key is public; that's fine.)
-4. The **Secret Key** must never go in `public_html`. In hPanel → File Manager, go **up one level** from `public_html` (the folder for natehallinsurance.com) and create a folder named `nhi-private`. Inside it create `config.php` containing:
+The Turnstile widget already exists in Cloudflare, and its **Site Key** (`0x4AAAAAAFWLLZDuf_BTMjo7`) is already in `index.html` (`data-sitekey`). The site key is public, so that's fine. What's left is the **Secret Key**, which must never go in `public_html` or in this repo:
+
+1. In Cloudflare, open **Turnstile**, click the widget, and copy the **Secret Key**. While you're there, make sure its hostnames include `www.natehallinsurance.com` and `natehallinsurance.com`.
+2. In hPanel → File Manager, go **up one level** from `public_html` (the folder for natehallinsurance.com) and create a folder named `nhi-private`. Inside it create `config.php` containing:
    ```php
    <?php return ['turnstile_secret' => 'PASTE-SECRET-KEY-HERE'];
    ```
    (Alternatively, set an environment variable named `TURNSTILE_SECRET_KEY`.)
-5. Upload the site and send a test. The email should **not** say [UNVERIFIED]. If it does, the last line of the email says why (secret missing, site key missing, or Cloudflare unreachable).
+3. Upload the site and send a test. The email should **not** say [UNVERIFIED]. If it does, the last line of the email says why (secret missing, or Cloudflare unreachable).
+
+The server only accepts a Turnstile pass that came from the contact form (action `contact`) on `www.natehallinsurance.com` or `natehallinsurance.com`. If the site ever moves to a different address, add it to `$TURNSTILE_HOSTNAMES` at the top of `contact.php`, or add `'turnstile_hostnames' => ['new.example.com']` to `config.php`.
 
 The same `nhi-private` folder holds `form-rejections.log`, one line per blocked submission (date, IP address, reason). Check it if a real person says they sent a request that never arrived.
 
