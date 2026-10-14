@@ -79,10 +79,19 @@ function turnstile_config()
 {
     global $PRIVATE_DIR, $TURNSTILE_HOSTNAMES;
     $config = [];
+    $error = '';
     $file = $PRIVATE_DIR . '/config.php';
     if (is_readable($file)) {
-        $loaded = include $file;
+        ob_start();
+        try {
+            $loaded = include $file;
+        } catch (Throwable $e) {
+            $loaded = null;
+            error_log('Contact form: could not read config.php: ' . $e->getMessage());
+        }
+        ob_end_clean();
         if (is_array($loaded)) $config = $loaded;
+        else $error = 'nhi-private/config.php has a typo, so the Turnstile secret key could not be read';
     }
     $secret = getenv('TURNSTILE_SECRET_KEY');
     if (!is_string($secret) || $secret === '') {
@@ -97,7 +106,7 @@ function turnstile_config()
         $hosts = $TURNSTILE_HOSTNAMES;
     }
     $hosts = array_values(array_filter(array_map(function ($h) { return strtolower(trim((string) $h)); }, $hosts)));
-    return ['secret' => trim($secret), 'hostnames' => $hosts];
+    return ['secret' => trim($secret), 'hostnames' => $hosts, 'error' => $error];
 }
 
 // Returns [status, detail]. Status is 'pass', 'fail', or 'unknown' (Cloudflare couldn't be reached).
@@ -239,9 +248,14 @@ $unverifiedWhy = 'the spam check did not load in the visitor\'s browser';
 if ($token !== '') {
     $turnstile = turnstile_config();
     if ($turnstile['secret'] === '') {
-        $unverifiedWhy = 'the Turnstile secret key is not set up on the server';
+        $unverifiedWhy = $turnstile['error'] !== '' ? $turnstile['error'] : 'the Turnstile secret key is not set up on the server';
     } else {
-        list($check, $detail) = turnstile_verify($turnstile['secret'], $token, $ip, $turnstile['hostnames'], $TURNSTILE_ACTION);
+        try {
+            list($check, $detail) = turnstile_verify($turnstile['secret'], $token, $ip, $turnstile['hostnames'], $TURNSTILE_ACTION);
+        } catch (Throwable $e) {
+            error_log('Contact form: Turnstile check failed: ' . $e->getMessage());
+            list($check, $detail) = ['unknown', ''];
+        }
         if ($check === 'fail') reject_spam($detail);
         if ($check === 'pass') $verified = true;
         else $unverifiedWhy = 'Cloudflare could not be reached to check it';
