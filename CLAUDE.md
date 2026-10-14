@@ -73,8 +73,9 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
   the owner on Hostinger; never commit it or retrieve it into the repo. siteverify must return `success`, action
   `contact`, and a hostname in `$TURNSTILE_HOSTNAMES` (www + apex; overridable via env `TURNSTILE_HOSTNAMES` or
   config `turnstile_hostnames`; never add localhost in production). Tokens over 2048 chars are rejected. A failed
-  check (incl. replayed token) is silent spam; Cloudflare unreachable / internal-error / no secret = deliver with
-  [UNVERIFIED]. The script is injected only when the form is within 600px of the viewport or focused (keeps
+  check (incl. replayed token) is silent spam; Cloudflare unreachable / internal-error / no secret / wrong secret
+  (`invalid-input-secret`) / a typo in config.php (include is wrapped in try/catch + output buffering) = deliver with
+  [UNVERIFIED] and the reason on the email's last line. (A live crash once came from curly quotes in config.php.) The script is injected only when the form is within 600px of the viewport or focused (keeps
   Lighthouse unchanged). If the widget fails, errors, or has no token 8 s after Send (or 15 s after load), the JS
   sets `turnstile_status=unavailable` so the request is still delivered with [UNVERIFIED]; `form_sent` is captured
   at the click, before that wait. After any error response the widget is reset for a fresh token. Cloudflare test
