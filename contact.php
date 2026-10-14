@@ -125,7 +125,6 @@ function turnstile_verify($secret, $token, $ip, $hostnames, $action)
             CURLOPT_TIMEOUT => 10,
         ]);
         $raw = curl_exec($ch);
-        if (curl_getinfo($ch, CURLINFO_HTTP_CODE) !== 200) $raw = false;
         curl_close($ch);
     } else {
         $raw = @file_get_contents($url, false, stream_context_create(['http' => [
@@ -133,6 +132,7 @@ function turnstile_verify($secret, $token, $ip, $hostnames, $action)
             'header' => 'Content-Type: application/x-www-form-urlencoded',
             'content' => $data,
             'timeout' => 10,
+            'ignore_errors' => true,
         ]]));
     }
     $result = is_string($raw) ? json_decode($raw, true) : null;
@@ -141,10 +141,13 @@ function turnstile_verify($secret, $token, $ip, $hostnames, $action)
 
 function turnstile_judge($result, $hostnames, $action)
 {
-    if (!is_array($result)) return ['unknown', 'no response from Cloudflare'];
+    if (!is_array($result)) return ['unknown', 'Cloudflare could not be reached to check it'];
     if (empty($result['success'])) {
         $codes = isset($result['error-codes']) ? (array) $result['error-codes'] : [];
-        if (in_array('internal-error', $codes, true)) return ['unknown', 'Cloudflare internal error'];
+        if (in_array('internal-error', $codes, true)) return ['unknown', 'Cloudflare could not be reached to check it'];
+        if (array_intersect(['invalid-input-secret', 'missing-input-secret'], $codes)) {
+            return ['unknown', 'the Turnstile secret key in nhi-private/config.php is wrong'];
+        }
         return ['fail', 'Turnstile token rejected (' . implode(', ', $codes) . ')'];
     }
     $gotAction = isset($result['action']) ? (string) $result['action'] : '';
@@ -254,11 +257,11 @@ if ($token !== '') {
             list($check, $detail) = turnstile_verify($turnstile['secret'], $token, $ip, $turnstile['hostnames'], $TURNSTILE_ACTION);
         } catch (Throwable $e) {
             error_log('Contact form: Turnstile check failed: ' . $e->getMessage());
-            list($check, $detail) = ['unknown', ''];
+            list($check, $detail) = ['unknown', 'Cloudflare could not be reached to check it'];
         }
         if ($check === 'fail') reject_spam($detail);
         if ($check === 'pass') $verified = true;
-        else $unverifiedWhy = 'Cloudflare could not be reached to check it';
+        else $unverifiedWhy = $detail;
     }
 }
 
