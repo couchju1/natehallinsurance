@@ -372,6 +372,8 @@ input[aria-invalid="true"] { border-color: #a3320b; }
 }
 .check:has(input:checked) { border-color: var(--gold); background: #fbf5e6; }
 .check input { width: 20px; height: 20px; accent-color: var(--ink); margin: 0; }
+.hp-field { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+.turnstile:not(:empty) { margin: 0 0 16px; }
 .form-error { color: #a3320b; font-weight: 600; }
 .form-fine { font-size: .88rem; color: var(--steel); margin: 12px 0 0; text-align: center; }
 .form-success h3 { font-family: var(--font-head); font-size: 2rem; }

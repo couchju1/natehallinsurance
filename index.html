@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap">
 
   <link rel="preload" as="image" href="assets/nate.webp?v=20261008" type="image/webp">
-  <link rel="stylesheet" href="css/styles.css?v=20261012">
+  <link rel="stylesheet" href="css/styles.css?v=20261014">
 
   <script type="application/ld+json">
   {
@@ -485,9 +485,11 @@
         </div>
 
         <form class="contact-form" name="quote-request" method="POST" action="contact.php" novalidate>
-          <p class="visually-hidden" aria-hidden="true">
-            <label>Leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
-          </p>
+          <div class="hp-field" aria-hidden="true">
+            <label>Leave this field empty: <input name="company_website" type="text" tabindex="-1" autocomplete="off"></label>
+          </div>
+          <input type="hidden" name="form_loaded" value="">
+          <input type="hidden" name="turnstile_status" value="">
 
           <div class="notice" role="note">
             <strong>Please don't include sensitive health information or policy numbers.</strong>
@@ -540,6 +542,7 @@
             <textarea id="comments" name="comments" rows="4"></textarea>
           </div>
 
+          <div class="turnstile" data-turnstile data-sitekey=""></div>
           <p class="form-error" role="alert" data-form-error hidden></p>
           <button class="btn btn-gold btn-block" type="submit">Send My Request</button>
           <p class="form-fine">Fields marked <span aria-hidden="true">*</span><span class="visually-hidden">with an asterisk</span> are required. See my <a href="privacy.html">Privacy Policy</a>.</p>
@@ -583,6 +586,6 @@
     <a class="btn btn-outline-light" href="#contact">Free Quote</a>
   </div>
 
-  <script src="js/main.js?v=20261012" defer></script>
+  <script src="js/main.js?v=20261014" defer></script>
 </body>
 </html>

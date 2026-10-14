@@ -58,8 +58,21 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
 
 ## Contact form
 - Posts to `contact.php`, which emails each request to natehallinsurance@gmail.com (From
-  `no-reply@natehallinsurance.com`, Reply-To = visitor). Nothing is stored. Honeypot field `bot-field`,
-  5 submissions/IP/hour, input validation, header-injection protection, Central time zone.
+  `no-reply@natehallinsurance.com`, Reply-To = visitor). Input validation, header-injection protection,
+  Central time zone.
+- Spam checks (in this order): honeypot `company_website` (off-screen `.hp-field`, wrapper `aria-hidden`,
+  `tabindex="-1"`), time trap (`form_loaded` set on page load + `form_sent` added at submit, both from the
+  visitor's clock so skew doesn't matter; under 3 s = spam), Turnstile token required unless the JS reports
+  `turnstile_status=unavailable`, 3 sends/IP/hour, then the visible validation errors, then content filters
+  (URL in comments, mostly non-Latin letters, first == last), and finally siteverify last so a 422 doesn't burn
+  the single-use token. Spam gets the normal success response and a line in
+  `../nhi-private/form-rejections.log` (outside `public_html`).
+- Turnstile: site key in `index.html` `data-sitekey` (empty = every email is flagged [UNVERIFIED]); secret from
+  env `TURNSTILE_SECRET_KEY` or `../nhi-private/config.php` (`<?php return ['turnstile_secret' => '...'];`).
+  Never commit the secret. The script is injected by `js/main.js` only when the form is within 600px of the
+  viewport or focused (keeps Lighthouse unchanged). If it fails to load or errors, the request is still sent
+  with an [UNVERIFIED] subject. Cloudflare test keys for local testing: site `1x00000000000000000000AA`,
+  secret `1x0000000000000000000000000000000AA` (pass) / `2x0000000000000000000000000000000AA` (fail).
 - `js/main.js` shows "Thank you!" **only** when contact.php returns `{"ok":true}`; otherwise an error with the
   phone number. Don't weaken this — a silently lost lead is the worst failure.
 - Checkbox name is `interests[]` (PHP needs the brackets to receive multiple values).

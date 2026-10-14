@@ -120,6 +120,72 @@
     var errorBox = form.querySelector('[data-form-error]');
     var success = document.querySelector('[data-form-success]');
     var submitBtn = form.querySelector('[type="submit"]');
+    var statusInput = form.querySelector('[name="turnstile_status"]');
+    var widgetBox = form.querySelector('[data-turnstile]');
+    var widgetId = null;
+    var widgetState = 'idle';
+    var widgetWaiters = [];
+
+    form.querySelector('[name="form_loaded"]').value = String(Date.now());
+
+    function settleWidget(state) {
+      widgetState = state;
+      statusInput.value = state === 'unavailable' ? 'unavailable' : '';
+      widgetWaiters.splice(0).forEach(function (fn) { fn(); });
+    }
+
+    function loadTurnstile() {
+      if (widgetState !== 'idle') return;
+      var siteKey = widgetBox && widgetBox.getAttribute('data-sitekey');
+      if (!siteKey) { settleWidget('unavailable'); return; }
+      widgetState = 'loading';
+      window.nhiTurnstileReady = function () {
+        try {
+          widgetId = window.turnstile.render(widgetBox, {
+            sitekey: siteKey,
+            appearance: 'interaction-only',
+            size: 'flexible',
+            callback: function () { settleWidget('ready'); },
+            'expired-callback': function () { widgetState = 'loading'; },
+            'error-callback': function () { settleWidget('unavailable'); return true; }
+          });
+        } catch (err) {
+          settleWidget('unavailable');
+        }
+      };
+      var script = document.createElement('script');
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=nhiTurnstileReady';
+      script.async = true;
+      script.onerror = function () { settleWidget('unavailable'); };
+      document.head.appendChild(script);
+      setTimeout(function () { if (widgetState === 'loading') settleWidget('unavailable'); }, 15000);
+    }
+
+    function widgetSettled() {
+      if (widgetState === 'idle') loadTurnstile();
+      if (widgetState !== 'loading') return Promise.resolve();
+      return new Promise(function (resolve) {
+        widgetWaiters.push(resolve);
+        setTimeout(resolve, 8000);
+      });
+    }
+
+    function resetWidget() {
+      if (widgetId === null || !window.turnstile) return;
+      widgetState = 'loading';
+      window.turnstile.reset(widgetId);
+    }
+
+    if ('IntersectionObserver' in window) {
+      var watcher = new IntersectionObserver(function (entries) {
+        if (entries.some(function (en) { return en.isIntersecting; })) {
+          watcher.disconnect();
+          loadTurnstile();
+        }
+      }, { rootMargin: '600px 0px' });
+      watcher.observe(form);
+    }
+    form.addEventListener('focusin', loadTurnstile);
 
     function showError(msg, field) {
       errorBox.textContent = msg;
@@ -133,7 +199,7 @@
 
       var invalid = null;
       form.querySelectorAll('input, textarea').forEach(function (el) {
-        if (el.name === 'bot-field' || el.type === 'hidden' || el.type === 'checkbox' || el.type === 'radio') return;
+        if (el.name === 'company_website' || el.type === 'hidden' || el.type === 'checkbox' || el.type === 'radio') return;
         var ok = el.checkValidity() && !(el.required && !el.value.trim());
         el.setAttribute('aria-invalid', String(!ok));
         if (!ok && !invalid) invalid = el;
@@ -148,11 +214,16 @@
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending…';
 
-      fetch(form.getAttribute('action'), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
-        body: new URLSearchParams(new FormData(form)).toString()
-      })
+      widgetSettled()
+        .then(function () {
+          var data = new FormData(form);
+          data.set('form_sent', String(Date.now()));
+          return fetch(form.getAttribute('action'), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
+            body: new URLSearchParams(data).toString()
+          });
+        })
         .then(function (res) {
           return res.json().catch(function () { return {}; }).then(function (data) {
             if (!res.ok || !data.ok) throw new Error(data.message || 'HTTP ' + res.status);
@@ -167,6 +238,7 @@
           var msg = err && err.message && !/^HTTP |JSON|fetch/i.test(err.message)
             ? err.message : 'Sorry, something went wrong sending your request.';
           showError(msg + ' If it keeps happening, please call me at 605-321-5367.');
+          resetWidget();
         })
         .finally(function () {
           submitBtn.disabled = false;
