@@ -133,6 +133,22 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
 - The zip for Hostinger includes `.htaccess`. Hostinger may already have its own `.htaccess` (e.g. Force HTTPS);
   remind the owner to back it up and merge rather than blindly overwrite.
 
+## Analytics and Search Console (added October 16, 2026)
+- Google Analytics 4 `G-8RCHH9KMJ9`: the gtag snippet is in the `<head>` of index, privacy, thanks and 404.
+  It lives in its own GA account ("Nate Hall Insurance") under Justin's login, so it can be handed to Nate
+  by adding his Google login as Administrator.
+- Events from `js/main.js`: `generate_lead` when contact.php returns ok, `phone_click` on any `tel:` link
+  (with `link_location`). Mark both as key events in GA4.
+- Search Console HTML tag (Justin's, URL-prefix `https://www.natehallinsurance.com/`) is in index.html only.
+  At handoff, add Nate's own tag before removing Justin's.
+- privacy.html "Cookies and tracking" describes Google Analytics and Turnstile. Keep it accurate if tracking changes.
+
+## Keep main in sync with the live site
+- The site goes live by zip upload, so GitHub can fall behind. On October 16 the live site was running an
+  unmerged branch (Turnstile, October 14) and a zip built from `main` would have rolled the form back and
+  broken leads. Before building an upload zip, compare the live files (index.html, js/main.js, css/styles.css)
+  with the branch you're building from, and merge whatever is live into `main` first.
+
 ## Before finishing any change
 - Check the page at 375px and 1280px (no horizontal scroll), run axe-core, and confirm tabs, FAQ, tile
   links, and the form still work. After structural HTML edits, confirm tags are balanced and there's no

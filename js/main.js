@@ -238,6 +238,7 @@
           form.hidden = true;
           success.hidden = false;
           success.focus();
+          if (typeof window.gtag === 'function') window.gtag('event', 'generate_lead');
         })
         .catch(function (err) {
           var msg = err && err.message && !/^HTTP |JSON|fetch/i.test(err.message)
@@ -251,4 +252,11 @@
         });
     });
   }
+
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest && e.target.closest('a[href^="tel:"]');
+    if (link && typeof window.gtag === 'function') {
+      window.gtag('event', 'phone_click', { link_location: link.closest('.mobile-bar') ? 'mobile-bar' : link.closest('.site-header') ? 'header' : link.closest('.site-footer') ? 'footer' : 'content' });
+    }
+  });
 })();
