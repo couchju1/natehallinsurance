@@ -58,8 +58,29 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
 
 ## Contact form
 - Posts to `contact.php`, which emails each request to natehallinsurance@gmail.com (From
-  `no-reply@natehallinsurance.com`, Reply-To = visitor). Nothing is stored. Honeypot field `bot-field`,
-  5 submissions/IP/hour, input validation, header-injection protection, Central time zone.
+  `no-reply@natehallinsurance.com`, Reply-To = visitor). Input validation, header-injection protection,
+  Central time zone.
+- Spam checks (in this order): honeypot `company_website` (off-screen `.hp-field`, wrapper `aria-hidden`,
+  `tabindex="-1"`), time trap (`form_loaded` set on page load + `form_sent` added at submit, both from the
+  visitor's clock so skew doesn't matter; under 3 s = spam), Turnstile token required unless the JS reports
+  `turnstile_status=unavailable`, 3 sends/IP/hour, then the visible validation errors, then content filters
+  (URL in comments, mostly non-Latin letters, first == last), and finally siteverify last so a 422 doesn't burn
+  the single-use token. Spam gets the normal success response and a line in
+  `../nhi-private/form-rejections.log` (outside `public_html`).
+- Turnstile: existing dashboard widget, site key `0x4AAAAAAFWLLZDuf_BTMjo7` in `index.html` `data-sitekey`
+  (rendered explicitly by `js/main.js` with `action: 'contact'`, `appearance: 'interaction-only'`). Secret from env
+  `TURNSTILE_SECRET_KEY` or `../nhi-private/config.php` (`<?php return ['turnstile_secret' => '...'];`), stored by
+  the owner on Hostinger; never commit it or retrieve it into the repo. siteverify must return `success`, action
+  `contact`, and a hostname in `$TURNSTILE_HOSTNAMES` (www + apex; overridable via env `TURNSTILE_HOSTNAMES` or
+  config `turnstile_hostnames`; never add localhost in production). Tokens over 2048 chars are rejected. A failed
+  check (incl. replayed token) is silent spam; Cloudflare unreachable / internal-error / no secret / wrong secret
+  (`invalid-input-secret`) / a typo in config.php (include is wrapped in try/catch + output buffering) = deliver with
+  [UNVERIFIED] and the reason on the email's last line. (A live crash once came from curly quotes in config.php.) The script is injected only when the form is within 600px of the viewport or focused (keeps
+  Lighthouse unchanged). If the widget fails, errors, or has no token 8 s after Send (or 15 s after load), the JS
+  sets `turnstile_status=unavailable` so the request is still delivered with [UNVERIFIED]; `form_sent` is captured
+  at the click, before that wait. After any error response the widget is reset for a fresh token. Cloudflare test
+  keys: site `1x00000000000000000000AA`, secret `1x0000000000000000000000000000000AA` (pass, but returns no action
+  and hostname `example.com`, so the server rejects it) / `2x0000000000000000000000000000000AA` (fail).
 - `js/main.js` shows "Thank you!" **only** when contact.php returns `{"ok":true}`; otherwise an error with the
   phone number. Don't weaken this — a silently lost lead is the worst failure.
 - Checkbox name is `interests[]` (PHP needs the brackets to receive multiple values).

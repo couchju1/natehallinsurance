@@ -44,10 +44,32 @@ The carousel is built but hidden. To turn it on, open `js/main.js`, add real cli
 
 The site is hosted on **Hostinger** at www.natehallinsurance.com. The form posts to `contact.php`, which Hostinger runs. It emails each request to **natehallinsurance@gmail.com** with the visitor's email as Reply-To, so clicking **Reply** in Gmail answers them directly. Nothing is saved on the server.
 
-- **Settings** are at the top of `contact.php`: the inbox (`$TO`), the sender address (`$FROM`, currently `no-reply@natehallinsurance.com`), and a limit of 5 submissions per visitor per hour.
-- **Spam protection:** a hidden "honeypot" field that bots fill in (those submissions are dropped silently) plus the hourly limit.
+- **Settings** are at the top of `contact.php`: the inbox (`$TO`), the sender address (`$FROM`, currently `no-reply@natehallinsurance.com`), a limit of 3 submissions per visitor per hour, and the 3-second minimum fill time.
+- **Spam protection** (none of it adds anything for real visitors to do):
+  - **Cloudflare Turnstile**, an invisible "are you human?" check. It only loads when the visitor scrolls near the form, so the page doesn't get slower. If it can't load in someone's browser, their request still goes through, but the email subject starts with **[UNVERIFIED]** so Nate knows to look it over.
+  - A hidden `company_website` field that only bots fill in.
+  - A time check: anything sent less than 3 seconds after the page loaded is a bot.
+  - Content checks: a link in Comments, mostly non-Latin text (e.g. Cyrillic or Chinese spam), or first name equal to last name.
+  - The hourly limit per visitor.
+  - Every blocked submission still shows the normal "Thank you!" so bots learn nothing. The reason is written to `nhi-private/form-rejections.log` (see below), never shown in the browser. A request sent with no JavaScript at all (or straight from a script) has no Turnstile token and is blocked.
 - **Safety:** names and emails are checked, line breaks are stripped from anything that goes into an email header, and only the six known product names are accepted.
 - The page shows "Thank you!" **only** when `contact.php` confirms the email was sent. Otherwise the visitor sees an error with Nate's phone number, so a request is never silently lost.
+
+### One-time Turnstile setup
+
+The Turnstile widget already exists in Cloudflare, and its **Site Key** (`0x4AAAAAAFWLLZDuf_BTMjo7`) is already in `index.html` (`data-sitekey`). The site key is public, so that's fine. What's left is the **Secret Key**, which must never go in `public_html` or in this repo:
+
+1. In Cloudflare, open **Turnstile**, click the widget, and copy the **Secret Key**. While you're there, make sure its hostnames include `www.natehallinsurance.com` and `natehallinsurance.com`.
+2. In hPanel → File Manager, go **up one level** from `public_html` (the folder for natehallinsurance.com) and create a folder named `nhi-private`. Inside it create `config.php` containing:
+   ```php
+   <?php return ['turnstile_secret' => 'PASTE-SECRET-KEY-HERE'];
+   ```
+   (Alternatively, set an environment variable named `TURNSTILE_SECRET_KEY`.)
+3. Upload the site and send a test. The email should **not** say [UNVERIFIED]. If it does, the last line of the email says why (secret missing, or Cloudflare unreachable).
+
+The server only accepts a Turnstile pass that came from the contact form (action `contact`) on `www.natehallinsurance.com` or `natehallinsurance.com`. If the site ever moves to a different address, add it to `$TURNSTILE_HOSTNAMES` at the top of `contact.php`, or add `'turnstile_hostnames' => ['new.example.com']` to `config.php`.
+
+The same `nhi-private` folder holds `form-rejections.log`, one line per blocked submission (date, IP address, reason). Check it if a real person says they sent a request that never arrived.
 
 **After every upload, send a test** from the live site and confirm it reaches the Gmail inbox. If it lands in spam, mark it **Not spam** once. If test emails never arrive:
 1. In hPanel go to **Emails** and create the mailbox `no-reply@natehallinsurance.com` (or change `$FROM` in `contact.php` to an address that exists on the domain). Many servers reject mail "from" an address that doesn't exist.
