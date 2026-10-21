@@ -5,6 +5,16 @@
   var TESTIMONIALS = [
   ];
 
+  document.querySelectorAll('.nh-carriers').forEach(function (section) {
+    var button = section.querySelector('.nh-carriers__toggle');
+    if (!button) return;
+    button.addEventListener('click', function () {
+      var paused = section.getAttribute('data-paused') !== 'true';
+      section.setAttribute('data-paused', String(paused));
+      button.textContent = paused ? 'Resume scrolling' : 'Pause scrolling';
+    });
+  });
+
   var header = document.querySelector('.site-header');
   if (header) {
     var onScroll = function () { header.classList.toggle('is-scrolled', window.scrollY > 8); };

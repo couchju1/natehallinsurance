@@ -16,6 +16,7 @@ natehallinsurance/
 ├── css/styles.css
 ├── js/main.js        Tabs, FAQ accordion, testimonials carousel, form submit
 ├── assets/           logo.png, nate.jpg (+ .webp), og-image.jpg, favicons
+│   └── carriers/     13 carrier logos for the scrolling ribbon under the intro
 ├── netlify.toml      Only used if the site is ever hosted on Netlify again
 ├── CLAUDE.md         Project notes and decisions for Claude Code sessions
 └── README.md

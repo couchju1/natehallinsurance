@@ -22,8 +22,15 @@ the owner says otherwise.
 - Hours: Mon–Fri 8:30 AM–5:30 PM · Saturday by appointment · Sunday closed · evening appointments available.
 - Licensed in **5 states: SD, ND, IA, NE, MN** (listed everywhere states appear, incl. JSON-LD + link preview image).
 - Facebook: https://www.facebook.com/p/Nate-Hall-Insurance-61587780698267/
-- Works with **multiple carriers**. Do **not** name or single out any carrier (Prudential was removed on purpose).
-  Emphasize that he's independent and shops multiple companies.
+- Works with **multiple carriers**. Don't single out any one carrier in the copy (a Prudential-only mention was
+  removed on purpose). Emphasize that he's independent and shops multiple companies.
+- **Carrier ribbon** (owner request, Oct 2026): a scrolling strip of 13 carrier logos right after the hero
+  (`section.nh-carriers`), built from a component Nate had made. Logos in `assets/carriers/`, in this order:
+  Prudential, Global Atlantic, F&G, SILAC, Mutual of Omaha, Aetna, North American, EquiTrust (on a dark tile),
+  American Equity, Assurity, Corebridge, Avera Health Plans, Pan-American Life. The list is duplicated
+  (`aria-hidden`, empty alts) so the CSS loop is seamless; both lists must stay identical. Pauses on hover/focus
+  and via the "Pause scrolling" button; with reduced motion it shows a static wrapped grid. Note under it:
+  "Carrier and product availability varies by state." Logo URLs use `?v=` like other assets.
 
 ## Products (this order everywhere: tiles, Coverage cards, form checkboxes)
 1. Life Insurance (final expense is included here, not a main product)
