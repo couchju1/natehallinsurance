@@ -103,6 +103,6 @@ Using `php -S` (not a plain static server) lets the form run. Real emails only g
 - Font: Cormorant Garamond (Google Fonts) for headings, system fonts for body text.
 - Accessibility check: axe-core reported zero violations at 375px and 1280px. Tabs follow the WAI-ARIA pattern (Arrow keys, Home, End), and the FAQ uses buttons with `aria-expanded`.
 - No carrier is named on the site. The copy emphasizes that Nate is independent and works with multiple carriers.
-- Products (in this order everywhere: tiles, Coverage cards, form checkboxes): Life Insurance (final expense included), Annuities & Retirement, Medicare, Health Insurance, Cancer & Critical Illness, Long-Term Care. Annuities & Retirement also gets a callout under the tiles and a highlighted Coverage card. The callout's button pre-checks that box on the form.
+- Products (in this order everywhere: the situation picker, Coverage cards, form checkboxes): Life Insurance (final expense included), Annuities & Retirement, Medicare, Health Insurance, Cancer & Critical Illness, Long-Term Care. Annuities & Retirement also gets a callout under the situation picker and a highlighted Coverage card. The callout's button pre-checks that box on the form.
 - Licensed states: SD, ND, IA, NE, MN (office box, Service Area tab, FAQ, footers, JSON-LD, link preview image).
 - Meeting options are worded consistently as "in person, by phone, or virtually". The form has an optional "How would you like to meet?" choice (In person / Phone / Virtual).

@@ -30,7 +30,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap">
 
   <link rel="preload" as="image" href="assets/nate.webp?v=20261008" type="image/webp">
-  <link rel="stylesheet" href="css/styles.css?v=20261021">
+  <link rel="stylesheet" href="css/styles.css?v=20261031">
 
   <script type="application/ld+json">
   {
@@ -199,29 +199,137 @@
       <p class="nh-carriers__note">Carrier and product availability varies by state.</p>
     </section>
 
-    <section class="section specialties" aria-labelledby="specialties-title">
+    <section class="section life" id="situations" aria-labelledby="life-title">
       <div class="container">
-        <h2 id="specialties-title" class="section-title">Specializing In</h2>
-        <ul class="tile-grid" role="list">
-          <li><a class="tile" href="#coverage-life" data-open-tab="tab-coverage">
-            <span class="tile-icon"><svg class="icon" aria-hidden="true"><use href="#i-family"/></svg></span>
-            <span class="tile-label">Life Insurance</span></a></li>
-          <li><a class="tile" href="#coverage-annuities" data-open-tab="tab-coverage">
-            <span class="tile-icon"><svg class="icon" aria-hidden="true"><use href="#i-growth"/></svg></span>
-            <span class="tile-label">Annuities &amp; Retirement</span></a></li>
-          <li><a class="tile" href="#coverage-medicare" data-open-tab="tab-coverage">
-            <span class="tile-icon"><svg class="icon" aria-hidden="true"><use href="#i-medical"/></svg></span>
-            <span class="tile-label">Medicare</span></a></li>
-          <li><a class="tile" href="#coverage-health" data-open-tab="tab-coverage">
-            <span class="tile-icon"><svg class="icon" aria-hidden="true"><use href="#i-pulse"/></svg></span>
-            <span class="tile-label">Health Insurance</span></a></li>
-          <li><a class="tile" href="#coverage-cancer" data-open-tab="tab-coverage">
-            <span class="tile-icon"><svg class="icon" aria-hidden="true"><use href="#i-ribbon"/></svg></span>
-            <span class="tile-label">Cancer &amp; Critical Illness</span></a></li>
-          <li><a class="tile" href="#coverage-ltc" data-open-tab="tab-coverage">
-            <span class="tile-icon"><svg class="icon" aria-hidden="true"><use href="#i-home-heart"/></svg></span>
-            <span class="tile-label">Long-Term Care</span></a></li>
-        </ul>
+        <div class="life-layout">
+          <div class="life-intro">
+            <p class="life-eyebrow">Start here</p>
+            <h2 id="life-title" class="life-title">What's going on in your life right now?</h2>
+            <p class="life-lead">Pick the one that sounds most like you. I'll show you what I'd look at first.</p>
+            <fieldset class="life-picker">
+              <legend class="visually-hidden">Pick your situation</legend>
+              <label class="life-opt" for="life-life">
+                <input type="radio" name="situation" id="life-life" value="life" checked>
+                <span class="life-opt-tag">Life insurance</span>
+                <span class="life-opt-label">My family counts on my paycheck</span>
+              </label>
+              <label class="life-opt" for="life-retire">
+                <input type="radio" name="situation" id="life-retire" value="retire">
+                <span class="life-opt-tag">Annuities &amp; retirement</span>
+                <span class="life-opt-label">Retirement is getting close</span>
+              </label>
+              <label class="life-opt" for="life-medicare">
+                <input type="radio" name="situation" id="life-medicare" value="medicare">
+                <span class="life-opt-tag">Medicare</span>
+                <span class="life-opt-label">I'm turning 65 soon</span>
+              </label>
+              <label class="life-opt" for="life-health">
+                <input type="radio" name="situation" id="life-health" value="health">
+                <span class="life-opt-tag">Health insurance</span>
+                <span class="life-opt-label">I need my own health plan</span>
+              </label>
+              <label class="life-opt" for="life-illness">
+                <input type="radio" name="situation" id="life-illness" value="illness">
+                <span class="life-opt-tag">Cancer &amp; critical illness</span>
+                <span class="life-opt-label">A big diagnosis would wreck our budget</span>
+              </label>
+              <label class="life-opt" for="life-care">
+                <input type="radio" name="situation" id="life-care" value="care">
+                <span class="life-opt-tag">Long-term care</span>
+                <span class="life-opt-label">I'm thinking about care down the road</span>
+              </label>
+            </fieldset>
+          </div>
+          <div class="life-panels">
+            <div class="life-panel" id="life-panel-life" data-situation="life">
+              <p class="life-panel-tag">Life insurance</p>
+              <h3 class="life-panel-title">If something happened to you, would the bills still get paid?</h3>
+              <p class="life-panel-sub">What I'd look at with you:</p>
+              <ul class="life-points" role="list">
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg> How much coverage it would take to pay off the house and keep things steady at home.</li>
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg> Term life for the years they need you most, or permanent coverage that lasts your whole life.</li>
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg> A small final expense policy, if what you really want is your funeral costs handled.</li>
+              </ul>
+              <div class="life-actions">
+                <a class="btn btn-gold" href="#contact" data-interest="Life insurance" data-note="I'd like to look at life insurance for my family.">Start My Free Quote</a>
+                <a class="life-call" href="tel:+16053215367"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-phone"/></svg> Or call 605-321-5367</a>
+              </div>
+              <a class="life-more" href="#coverage-life" data-open-tab="tab-coverage">More about life insurance</a>
+            </div>
+            <div class="life-panel" id="life-panel-retire" data-situation="retire">
+              <p class="life-panel-tag">Annuities &amp; retirement</p>
+              <h3 class="life-panel-title">You saved for years. Now it has to last as long as you do.</h3>
+              <p class="life-panel-sub">What I'd look at with you:</p>
+              <ul class="life-points" role="list">
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg> Ways to protect part of your savings from a bad year in the market.</li>
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg> Turning what you've saved into income that shows up every month.</li>
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg> The fees and surrender periods, in plain English, before you sign anything.</li>
+              </ul>
+              <div class="life-actions">
+                <a class="btn btn-gold" href="#contact" data-interest="Annuities &amp; retirement" data-note="I'm getting close to retirement and want to talk about my savings.">Start My Free Quote</a>
+                <a class="life-call" href="tel:+16053215367"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-phone"/></svg> Or call 605-321-5367</a>
+              </div>
+              <a class="life-more" href="#coverage-annuities" data-open-tab="tab-coverage">More about annuities</a>
+            </div>
+            <div class="life-panel" id="life-panel-medicare" data-situation="medicare">
+              <p class="life-panel-tag">Medicare</p>
+              <h3 class="life-panel-title">Your Medicare window opens three months before your 65th birthday month.</h3>
+              <p class="life-panel-sub">What I'd look at with you:</p>
+              <ul class="life-points" role="list">
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg> When your enrollment windows open and close, so you don't miss one.</li>
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg> Supplement plans and Medicare Advantage, compared against your doctors and prescriptions.</li>
+              </ul>
+              <div class="life-actions">
+                <a class="btn btn-gold" href="#contact" data-interest="Medicare" data-note="I'm turning 65 soon and want help with Medicare.">Start My Free Quote</a>
+                <a class="life-call" href="tel:+16053215367"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-phone"/></svg> Or call 605-321-5367</a>
+              </div>
+              <a class="life-more" href="#coverage-medicare" data-open-tab="tab-coverage">More about Medicare</a>
+            </div>
+            <div class="life-panel" id="life-panel-health" data-situation="health">
+              <p class="life-panel-tag">Health insurance</p>
+              <h3 class="life-panel-title">No plan through work? You still get to compare.</h3>
+              <p class="life-panel-sub">What I'd look at with you:</p>
+              <ul class="life-points" role="list">
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg> Plans side by side: the deductible, the network, and what you'd really pay out of pocket.</li>
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg> Whether your doctors are in network before you pick one.</li>
+              </ul>
+              <div class="life-actions">
+                <a class="btn btn-gold" href="#contact" data-interest="Health insurance" data-note="I need to buy my own health insurance.">Start My Free Quote</a>
+                <a class="life-call" href="tel:+16053215367"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-phone"/></svg> Or call 605-321-5367</a>
+              </div>
+              <a class="life-more" href="#coverage-health" data-open-tab="tab-coverage">More about health insurance</a>
+            </div>
+            <div class="life-panel" id="life-panel-illness" data-situation="illness">
+              <p class="life-panel-tag">Cancer &amp; critical illness</p>
+              <h3 class="life-panel-title">Health insurance pays the hospital. It doesn't pay the mortgage while you recover.</h3>
+              <p class="life-panel-sub">What I'd look at with you:</p>
+              <ul class="life-points" role="list">
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg> A cash benefit you can spend on the deductible, travel to treatment, or bills at home.</li>
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg> How it works alongside the health plan you already have.</li>
+              </ul>
+              <div class="life-actions">
+                <a class="btn btn-gold" href="#contact" data-interest="Cancer &amp; critical illness" data-note="I want to look at cancer and critical illness coverage.">Start My Free Quote</a>
+                <a class="life-call" href="tel:+16053215367"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-phone"/></svg> Or call 605-321-5367</a>
+              </div>
+              <a class="life-more" href="#coverage-cancer" data-open-tab="tab-coverage">More about critical illness coverage</a>
+            </div>
+            <div class="life-panel" id="life-panel-care" data-situation="care">
+              <p class="life-panel-tag">Long-term care</p>
+              <h3 class="life-panel-title">Care later in life is expensive. Planning now keeps more doors open.</h3>
+              <p class="life-panel-sub">What I'd look at with you:</p>
+              <ul class="life-points" role="list">
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg> What in-home care, assisted living, or a nursing home could cost, and how a policy can help pay for it.</li>
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg> Why it's usually easier to qualify while you're still healthy.</li>
+              </ul>
+              <div class="life-actions">
+                <a class="btn btn-gold" href="#contact" data-interest="Long-term care" data-note="I'm thinking ahead about long-term care.">Start My Free Quote</a>
+                <a class="life-call" href="tel:+16053215367"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-phone"/></svg> Or call 605-321-5367</a>
+              </div>
+              <a class="life-more" href="#coverage-ltc" data-open-tab="tab-coverage">More about long-term care</a>
+            </div>
+          </div>
+        </div>
+        <p class="life-other">Don't see yourself here? <a href="#contact">Just tell me what's going on</a> and we'll figure it out together.</p>
 
         <div class="callout">
           <span class="callout-icon"><svg class="icon" aria-hidden="true"><use href="#i-growth"/></svg></span>
@@ -634,6 +742,6 @@
     <a class="btn btn-outline-light" href="#contact">Free Quote</a>
   </div>
 
-  <script src="js/main.js?v=20261021" defer></script>
+  <script src="js/main.js?v=20261031" defer></script>
 </body>
 </html>

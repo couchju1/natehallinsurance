@@ -32,10 +32,10 @@ the owner says otherwise.
   and via the "Pause scrolling" button; with reduced motion it shows a static wrapped grid. Note under it:
   "Carrier and product availability varies by state." Logo URLs use `?v=` like other assets.
 
-## Products (this order everywhere: tiles, Coverage cards, form checkboxes)
+## Products (this order everywhere: situation picker, Coverage cards, form checkboxes)
 1. Life Insurance (final expense is included here, not a main product)
 2. Annuities & Retirement — owner wants this a bit more prominent: it has a "Planning for retirement?"
-   callout under the tiles and a gold-bordered "Retirement planning" Coverage card. The callout button
+   callout under the situation picker and a gold-bordered "Retirement planning" Coverage card. The callout button
    pre-checks that box on the form (`data-interest` in `js/main.js`).
 3. Medicare
 4. Health Insurance
@@ -44,6 +44,22 @@ the owner says otherwise.
 
 Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`, `Annuities & retirement`,
 `Medicare`, `Health insurance`, `Cancer & critical illness`, `Long-term care`.
+
+## Situation picker (added October 31, 2026, replaced the six "Specializing In" tiles)
+- Section `#situations`: "What's going on in your life right now?" Six radio options, one per product in product
+  order, each a life situation in the visitor's words with the product as a small tag. The matching dark panel shows
+  what Nate would look at first, a Start My Free Quote button, a call link, and a "More about ..." link that opens the
+  Coverage card (`data-open-tab`).
+- Panels switch with CSS only (`.life:has(#life-x:checked) #life-panel-x`), so it works with JavaScript off. Browsers
+  without `:has` show all six panels stacked and hide the picker.
+- The quote button uses `data-interest` (pre-checks the form box) and `data-note` (starts the Comments box in the
+  visitor's voice). The note is only written if Comments is empty or still holds the last note, so typed words are
+  never overwritten.
+- On phones (< 900px) choosing a situation scrolls the panel into view if it's below the fold.
+- GA4 events: `situation_select` and `situation_quote_click`, both with a `situation` parameter
+  (life, retire, medicare, health, illness, care).
+- Panel copy is general and educational. The Medicare headline uses the same fact as the FAQ (window opens three
+  months before the 65th birthday month). Keep it accurate if rules change.
 
 ## Voice and wording rules
 - Written in Nate's first-person voice: warm, plain, personal, family-focused. No hard-sell language.
