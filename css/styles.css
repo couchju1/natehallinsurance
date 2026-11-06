@@ -135,7 +135,8 @@ p { margin: 0 0 1em; }
 .agent-location .icon { color: var(--gold); }
 .hero-intro { max-width: 58ch; margin: 0 auto 1.5em; color: #e6e9ed; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
-.btn-row .btn { flex: 1 1 200px; max-width: 280px; }
+.btn-row .btn { flex: 1 1 200px; max-width: 320px; white-space: nowrap; }
+@media (max-width: 359px) { .btn-row .btn { white-space: normal; } }
 
 @media (min-width: 768px) {
   .hero { padding: 64px 0 72px; }
@@ -423,6 +424,12 @@ p { margin: 0 0 1em; }
 .contact-list li { display: flex; align-items: center; gap: 10px; }
 .contact-list .icon { color: var(--gold-text); }
 .contact-list a { color: var(--text); font-weight: 600; word-break: break-word; }
+.schedule-card {
+  margin-top: 24px; padding: 20px 18px; background: var(--white);
+  border: 1px solid var(--line); border-left: 4px solid var(--gold); border-radius: var(--radius);
+}
+.schedule-card h3 { font-family: var(--font-head); font-size: 1.5rem; margin: 0 0 .3em; }
+.schedule-card p { margin: 0 0 1em; }
 
 .contact-form, .form-success {
   background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);

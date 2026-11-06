@@ -300,5 +300,9 @@
     if (link && typeof window.gtag === 'function') {
       window.gtag('event', 'phone_click', { link_location: link.closest('.mobile-bar') ? 'mobile-bar' : link.closest('.site-header') ? 'header' : link.closest('.site-footer') ? 'footer' : 'content' });
     }
+    var cal = e.target.closest && e.target.closest('a[href^="https://calendly.com/"]');
+    if (cal && typeof window.gtag === 'function') {
+      window.gtag('event', 'schedule_click', { link_location: cal.closest('.hero') ? 'hero' : cal.closest('#contact') ? 'contact' : 'content' });
+    }
   });
 })();

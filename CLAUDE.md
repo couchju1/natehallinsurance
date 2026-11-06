@@ -79,6 +79,17 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
 - Footer disclaimer (keep): "Insurance products are offered through various carriers. Not all products are
   available in all states. This site is for informational purposes and is not a contract or offer of coverage."
 
+## Online scheduling (Calendly, added November 6, 2026)
+- Nate's booking link: **https://calendly.com/natehallinsurance/30min** (free 30-minute phone consultation).
+- Two "Schedule a Free Consultation" buttons: in the hero (outline button between Call Now and Get a Free Quote)
+  and a "Rather pick a time?" card (`.schedule-card`) under the contact details in `#contact`. Both open in a
+  new tab (`target="_blank" rel="noopener"` + visually-hidden "(opens in a new tab)") with the `#i-calendar` icon.
+- Hero buttons don't wrap (`white-space: nowrap`, max 320px) except under 360px wide.
+- GA4 event `schedule_click` with `link_location` (hero / contact). Mark it as a key event in GA4.
+- privacy.html "Cookies and tracking" has a paragraph saying Calendly runs the booking page. If the link
+  changes, update both buttons; `js/main.js` matches any `https://calendly.com/` link.
+- The phone mobile bar stays Call / Free Quote (a third button would be too cramped).
+
 ## Contact form
 - Posts to `contact.php`, which emails each request to natehallinsurance@gmail.com (From
   `no-reply@natehallinsurance.com`, Reply-To = visitor). Input validation, header-injection protection,
@@ -161,7 +172,7 @@ Form checkbox values (must match `$allowed` in `contact.php`): `Life insurance`,
   It lives in its own GA account ("Nate Hall Insurance") under Justin's login, so it can be handed to Nate
   by adding his Google login as Administrator.
 - Events from `js/main.js`: `generate_lead` when contact.php returns ok, `phone_click` on any `tel:` link
-  (with `link_location`). Mark both as key events in GA4.
+  (with `link_location`), `schedule_click` on any Calendly link. Mark them as key events in GA4.
 - Search Console HTML tag (Justin's, URL-prefix `https://www.natehallinsurance.com/`) is in index.html only.
   At handoff, add Nate's own tag before removing Justin's.
 - privacy.html "Cookies and tracking" describes Google Analytics and Turnstile. Keep it accurate if tracking changes.
