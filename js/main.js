@@ -301,8 +301,55 @@
       window.gtag('event', 'phone_click', { link_location: link.closest('.mobile-bar') ? 'mobile-bar' : link.closest('.site-header') ? 'header' : link.closest('.site-footer') ? 'footer' : 'content' });
     }
     var cal = e.target.closest && e.target.closest('a[href^="https://calendly.com/"]');
-    if (cal && typeof window.gtag === 'function') {
+    if (cal && typeof window.gtag === 'function' && !cal.closest('dialog')) {
       window.gtag('event', 'schedule_click', { link_location: cal.closest('.hero') ? 'hero' : cal.closest('#contact') ? 'contact' : 'content' });
     }
   });
+
+  var scheduleDialog = document.getElementById('schedule-dialog');
+  if (scheduleDialog && typeof scheduleDialog.showModal === 'function') {
+    var scheduleBody = scheduleDialog.querySelector('[data-schedule-body]');
+    var scheduleOpener = null;
+
+    var closeSchedule = function () {
+      if (scheduleDialog.open) scheduleDialog.close();
+    };
+
+    scheduleDialog.addEventListener('close', function () {
+      document.documentElement.classList.remove('has-dialog');
+      if (scheduleOpener && document.contains(scheduleOpener)) scheduleOpener.focus();
+    });
+
+    scheduleDialog.addEventListener('click', function (e) {
+      if (e.target === scheduleDialog) closeSchedule();
+    });
+
+    scheduleDialog.querySelector('[data-schedule-close]').addEventListener('click', closeSchedule);
+
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest && e.target.closest('a[data-schedule]');
+      if (!link || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      scheduleOpener = link;
+      if (!scheduleBody.querySelector('iframe')) {
+        var src = new URL(link.href);
+        src.searchParams.set('embed_domain', window.location.hostname);
+        src.searchParams.set('embed_type', 'Inline');
+        var frame = document.createElement('iframe');
+        frame.src = src.toString();
+        frame.title = 'Pick a time with Nate Hall on Calendly';
+        frame.allow = 'payment';
+        frame.addEventListener('load', function () { frame.classList.add('is-loaded'); });
+        scheduleBody.appendChild(frame);
+      }
+      document.documentElement.classList.add('has-dialog');
+      scheduleDialog.showModal();
+      scheduleDialog.querySelector('[data-schedule-close]').focus();
+    });
+
+    window.addEventListener('message', function (e) {
+      if (e.origin !== 'https://calendly.com' || !e.data || e.data.event !== 'calendly.event_scheduled') return;
+      if (typeof window.gtag === 'function') window.gtag('event', 'schedule_booked');
+    });
+  }
 })();

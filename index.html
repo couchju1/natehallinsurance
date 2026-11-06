@@ -30,7 +30,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap">
 
   <link rel="preload" as="image" href="assets/nate.webp?v=20261008" type="image/webp">
-  <link rel="stylesheet" href="css/styles.css?v=20261106">
+  <link rel="stylesheet" href="css/styles.css?v=20261106b">
 
   <script type="application/ld+json">
   {
@@ -92,6 +92,7 @@
     <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
     <symbol id="i-handshake" viewBox="0 0 24 24"><path d="M12 21s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 11c0 5.65-7 10-7 10z"/><path d="M2 12h3M19 12h3"/></symbol>
     <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
     <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></symbol>
     <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></symbol>
     <symbol id="i-user-check" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M17 11l2 2 4-4"/></symbol>
@@ -149,9 +150,9 @@
               <svg class="icon icon-sm" aria-hidden="true"><use href="#i-phone"/></svg>
               Call Now
             </a>
-            <a class="btn btn-outline-light" href="https://calendly.com/natehallinsurance/30min" target="_blank" rel="noopener">
+            <a class="btn btn-outline-light" href="https://calendly.com/natehallinsurance/30min" data-schedule>
               <svg class="icon icon-sm" aria-hidden="true"><use href="#i-calendar"/></svg>
-              Schedule a Free Consultation<span class="visually-hidden"> (opens in a new tab)</span>
+              Schedule a Free Consultation
             </a>
             <a class="btn btn-outline-light" href="#contact">Get a Free Quote</a>
           </div>
@@ -646,9 +647,9 @@
           <div class="schedule-card">
             <h3>Rather pick a time?</h3>
             <p>Book a free 30-minute phone consultation right on my calendar. Choose a day and time that works for you, and I'll call you then.</p>
-            <a class="btn btn-gold" href="https://calendly.com/natehallinsurance/30min" target="_blank" rel="noopener">
+            <a class="btn btn-gold" href="https://calendly.com/natehallinsurance/30min" data-schedule>
               <svg class="icon icon-sm" aria-hidden="true"><use href="#i-calendar"/></svg>
-              Schedule a Free Consultation<span class="visually-hidden"> (opens in a new tab)</span>
+              Schedule a Free Consultation
             </a>
           </div>
         </div>
@@ -748,6 +749,20 @@
     </div>
   </footer>
 
+  <dialog class="schedule-dialog" id="schedule-dialog" aria-labelledby="schedule-dialog-title">
+    <div class="schedule-dialog__inner">
+      <div class="schedule-dialog__head">
+        <h2 id="schedule-dialog-title">Schedule a Free Consultation</h2>
+        <button class="schedule-dialog__close" type="button" data-schedule-close aria-label="Close scheduling window">
+          <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
+        </button>
+      </div>
+      <div class="schedule-dialog__body" data-schedule-body>
+        <p class="schedule-dialog__fallback">Loading my calendar&hellip; If it doesn't appear, <a href="https://calendly.com/natehallinsurance/30min" target="_blank" rel="noopener">open it on Calendly<span class="visually-hidden"> (opens in a new tab)</span></a> or call me at <a href="tel:+16053215367">605-321-5367</a>.</p>
+      </div>
+    </div>
+  </dialog>
+
   <div class="mobile-bar" aria-label="Quick actions" role="region">
     <a class="btn btn-gold" href="tel:+16053215367">
       <svg class="icon icon-sm" aria-hidden="true"><use href="#i-phone"/></svg> Call
@@ -755,6 +770,6 @@
     <a class="btn btn-outline-light" href="#contact">Free Quote</a>
   </div>
 
-  <script src="js/main.js?v=20261106" defer></script>
+  <script src="js/main.js?v=20261106b" defer></script>
 </body>
 </html>
